@@ -1,0 +1,24 @@
+---
+title: "Glossary"
+date: last-modified
+format: 
+  html:
+    code-fold: true
+engine: knitr
+reference-location: margin
+---
+
+
+"**Assignee**: Organization(s) and individual(s) that have an ownership interest in the legal rights a patent offers"[^1]
+
+[^1]: source: https://asklib.library.hbs.edu/faq/267606
+
+"**Inventor**: individual(s) who have contributed to the claimed invention. However, they may or may not have an ownership interest in the legal rights of the patent."
+
+"**Applicant**: Organization or individual that files the patent application is called the “applicant.” This could be the original inventor, or it could be the assignee."
+
+
+[IPC](https://www.wipo.int/classifications/ipc/en/): International Patent Classification 
+
+[CPC](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html): Cooperative Patent Classification
+

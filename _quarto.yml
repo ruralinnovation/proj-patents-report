@@ -2,12 +2,17 @@ project:
   type: website
 
 website:
-  title: "."
+  title: "PatentsView Primer for CORI’s MDA"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - glossary.qmd 
 
 format:
   html:
