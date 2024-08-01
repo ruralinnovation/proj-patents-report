@@ -26,7 +26,9 @@ jobs:
       - name: Install R Dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 1
+          cache-version: 2
+          packages: |
+            any::DT
   
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
