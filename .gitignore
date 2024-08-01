@@ -1,2 +1,5 @@
 /.quarto/
 _site/
+data/data_raw/
+
+.DS_Store

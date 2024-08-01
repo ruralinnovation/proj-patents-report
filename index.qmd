@@ -1,7 +1,13 @@
 ---
-title: "."
+title: "PatentsView Primer for CORI’s MDA"
 ---
 
-This is a Quarto website.
+[PatentsView](https://patentsview.org/what-is-patentsview) provides insights about patents. 
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+The data can be accessed either with either:
+
+- their [elastic search API](https://search.patentsview.org/docs/docs/Search%20API/SearchAPIReference/) and an R wrapper around it ([patentsview](https://docs.ropensci.org/patentsview/))
+
+- or by [bulk download](https://patentsview.org/download/data-download-tables)
+
+
