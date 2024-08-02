@@ -29,6 +29,9 @@ jobs:
           cache-version: 2
           packages: |
             any::DT
+            any::dm
+            any::htmltools
+            any::DiagrammeRsvg
   
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

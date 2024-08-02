@@ -103,7 +103,7 @@ pot_schema_pk_keys <-
 ```
 
 
-### Testing fk wit {dm}
+### Testing fk with {dm}
 ```{r}
 #| eval: false
 dm_enum_fk_candidates(
