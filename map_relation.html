@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-08-02">
+
+<title>Relations between tables – PatentsView Primer for CORI’s MDA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">PatentsView Primer for CORI’s MDA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./map_relation.html">Relations between tables</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./map_relation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Relations between tables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#first-step-download-nearly-all-data-sets." id="toc-first-step-download-nearly-all-data-sets." class="nav-link active" data-scroll-target="#first-step-download-nearly-all-data-sets.">First step: download nearly all data sets.</a></li>
+  <li><a href="#second-step-get-a-sample-of-all-of-them." id="toc-second-step-get-a-sample-of-all-of-them." class="nav-link" data-scroll-target="#second-step-get-a-sample-of-all-of-them.">Second step: get a sample of all of them.</a></li>
+  <li><a href="#third-read-everything-in-r." id="toc-third-read-everything-in-r." class="nav-link" data-scroll-target="#third-read-everything-in-r.">Third: read everything in R.</a></li>
+  <li><a href="#forth-use-dm-to-do-a-nice-schema" id="toc-forth-use-dm-to-do-a-nice-schema" class="nav-link" data-scroll-target="#forth-use-dm-to-do-a-nice-schema">Forth: use DM to do a nice schema</a>
+  <ul class="collapse">
+  <li><a href="#testing-fk-with-dm" id="toc-testing-fk-with-dm" class="nav-link" data-scroll-target="#testing-fk-with-dm">Testing fk with {dm}</a></li>
+  </ul></li>
+  <li><a href="#five-try-to-render-that-schema" id="toc-five-try-to-render-that-schema" class="nav-link" data-scroll-target="#five-try-to-render-that-schema">Five: Try to render that schema:</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Relations between tables</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 2, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="first-step-download-nearly-all-data-sets." class="level2">
+<h2 class="anchored" data-anchor-id="first-step-download-nearly-all-data-sets.">First step: download nearly all data sets.</h2>
+<p>Here we have room for improvement if we want to automate it.</p>
+</section>
+<section id="second-step-get-a-sample-of-all-of-them." class="level2">
+<h2 class="anchored" data-anchor-id="second-step-get-a-sample-of-all-of-them.">Second step: get a sample of all of them.</h2>
+<p>I went with the first 5 rows.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. create some repos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_raw/unziped</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_sample/</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. I could find a way to unzip just the first rows</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> data/data_raw/\*.zip <span class="at">-d</span> data/data_raw/unziped</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Get what we need</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> data/data_raw/unziped/<span class="pp">*</span>.tsv <span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">head</span> <span class="at">-n5</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="op">&gt;</span>  <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Store it were we need it</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> data/data_raw/unziped/<span class="pp">*</span>.head data/data_sample</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. delete not needed and rename</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> data/data_raw/unziped</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="third-read-everything-in-r." class="level2">
+<h2 class="anchored" data-anchor-id="third-read-everything-in-r.">Third: read everything in R.</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>read_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(path_dir){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    list_tsv <span class="ot">&lt;-</span> <span class="fu">paste0</span>(path_dir,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list.files</span>(path_dir, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">pattern =</span> <span class="st">".tsv"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    list_samples <span class="ot">&lt;-</span> <span class="fu">sapply</span>(list_tsv, read.csv, <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(list_samples) <span class="ot">&lt;-</span> <span class="fu">basename</span>(<span class="fu">names</span>(list_samples))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(list_samples)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>list_samples <span class="ot">&lt;-</span> <span class="fu">read_sample</span>(<span class="st">"data/data_sample/"</span>) </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># list2env(list_samples, .GlobalEnv)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(list_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "g_application.tsv.head"               
+ [2] "g_assignee_disambiguated.tsv.head"    
+ [3] "g_attorney_disambiguated.tsv.head"    
+ [4] "g_botanic.tsv.head"                   
+ [5] "g_cpc_at_issue.tsv.head"              
+ [6] "g_cpc_current.tsv.head"               
+ [7] "g_cpc_title.tsv.head"                 
+ [8] "g_examiner_not_disambiguated.tsv.head"
+ [9] "g_figures.tsv.head"                   
+[10] "g_foreign_citation.tsv.head"          
+[11] "g_foreign_priority.tsv.head"          
+[12] "g_gov_interest_contracts.tsv.head"    
+[13] "g_gov_interest_org.tsv.head"          
+[14] "g_gov_interest.tsv.head"              
+[15] "g_inventor_disambiguated.tsv.head"    
+[16] "g_ipc_at_issue.tsv.head"              
+[17] "g_location_disambiguated.tsv.head"    
+[18] "g_other_reference.tsv.head"           
+[19] "g_patent.tsv.head"                    
+[20] "g_persistent_assignee.tsv.head"       
+[21] "g_persistent_inventor.tsv.head"       
+[22] "g_us_application_citation.tsv.head"   
+[23] "g_us_patent_citation.tsv.head"        
+[24] "g_uspc_at_issue.tsv.head"             
+[25] "g_wipo_technology.tsv.head"           </code></pre>
+</div>
+</div>
+</section>
+<section id="forth-use-dm-to-do-a-nice-schema" class="level2">
+<h2 class="anchored" data-anchor-id="forth-use-dm-to-do-a-nice-schema">Forth: use DM to do a nice schema</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dm'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simplify my list I went back and forth</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>kiss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_application.tsv.head"</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_location_disambiguated.tsv.head"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[kiss])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_no_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and nota sample to build the schema.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path_to_tsv <span class="ot">&lt;-</span> <span class="st">"data/data_raw/unziped/"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>g_application <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_application.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_application)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>g_assignee_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"g_assignee_disambiguated.tsv"</span>), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_assignee_dis)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk but should have patent_id / assignee_id and location id has fk</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>g_inventor_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_inventor_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_inventor_dis)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk ..</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>g_location_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_location_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_location_dis)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># location ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Slowly adding them:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pot_schema_pk_keys <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_no_keys <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_application.tsv.head, <span class="at">columns =</span> patent_id) <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_location_disambiguated.tsv.head, <span class="at">columns =</span> location_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="testing-fk-with-dm" class="level3">
+<h3 class="anchored" data-anchor-id="testing-fk-with-dm">Testing fk with {dm}</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_inventor_disambiguated.tsv.head,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_location_disambiguated.tsv.head </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># some cleaning need to be done ...</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_assignee_disambiguated.tsv.head,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_application.tsv.head </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Adding them (uncorrected but that will be neded)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pot_schema_all_keys <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_pk_keys <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dm_add_fk</span>(g_inventor_disambiguated.tsv.head, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                       location_id,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                       g_location_disambiguated.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="five-try-to-render-that-schema" class="level2">
+<h2 class="anchored" data-anchor-id="five-try-to-render-that-schema">Five: Try to render that schema:</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kind of hacky </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_all_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>bob <span class="ot">&lt;-</span> DiagrammeRsvg<span class="sc">::</span><span class="fu">export_svg</span>(test)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">HTML</span>(bob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %0 Pages: 1 -->
+<svg width="478pt" height="580pt" viewbox="0.00 0.00 478.00 580.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 576)">
+<title>%0</title>
+<g id="a_graph0"><a title="Data Model">
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-576 474,-576 474,4 -4,4"></polygon>
+</a>
+</g>
+<!-- g_application.tsv.head -->
+<g id="g_application.tsv.head" class="node">
+<title>g_application.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="1,-511 1,-531 139,-531 139,-511 1,-511"></polygon>
+<text text-anchor="start" x="7.0147" y="-516.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_application.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-491 1,-511 139,-511 139,-491 1,-491"></polygon>
+<text text-anchor="start" x="3" y="-496.4" font-family="Times,serif" font-size="14.00" fill="#444444">application_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-471 1,-491 139,-491 139,-471 1,-471"></polygon>
+<text text-anchor="start" x="3" y="-477.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-451 1,-471 139,-471 139,-451 1,-451"></polygon>
+<text text-anchor="start" x="2.7391" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_application_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-431 1,-451 139,-451 139,-431 1,-431"></polygon>
+<text text-anchor="start" x="3" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">filing_date</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-411 1,-431 139,-431 139,-411 1,-411"></polygon>
+<text text-anchor="start" x="3" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">series_code</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-391 1,-411 139,-411 139,-391 1,-391"></polygon>
+<text text-anchor="start" x="3" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">rule_47_flag</text>
+<polygon fill="none" stroke="#555555" points="0,-390 0,-532 140,-532 140,-390 0,-390"></polygon>
+</g>
+<!-- g_assignee_disambiguated.tsv.head -->
+<g id="g_assignee_disambiguated.tsv.head" class="node">
+<title>g_assignee_disambiguated.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="199,-551 199,-571 439,-571 439,-551 199,-551"></polygon>
+<text text-anchor="start" x="219.0806" y="-556.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-531 199,-551 439,-551 439,-531 199,-531"></polygon>
+<text text-anchor="start" x="201" y="-536.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-511 199,-531 439,-531 439,-511 199,-511"></polygon>
+<text text-anchor="start" x="201" y="-516.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-491 199,-511 439,-511 439,-491 199,-491"></polygon>
+<text text-anchor="start" x="201" y="-496.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-471 199,-491 439,-491 439,-471 199,-471"></polygon>
+<text text-anchor="start" x="200.8008" y="-476.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-451 199,-471 439,-471 439,-451 199,-451"></polygon>
+<text text-anchor="start" x="201" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-431 199,-451 439,-451 439,-431 199,-431"></polygon>
+<text text-anchor="start" x="201" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-411 199,-431 439,-431 439,-411 199,-411"></polygon>
+<text text-anchor="start" x="201" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="199,-391 199,-411 439,-411 439,-391 199,-391"></polygon>
+<text text-anchor="start" x="201" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="198,-390 198,-572 440,-572 440,-390 198,-390"></polygon>
+</g>
+<!-- g_inventor_disambiguated.tsv.head -->
+<g id="g_inventor_disambiguated.tsv.head" class="node">
+<title>g_inventor_disambiguated.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="27.5,-301 27.5,-321 230.5,-321 230.5,-301 27.5,-301"></polygon>
+<text text-anchor="start" x="29.4642" y="-306.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-281 27.5,-301 230.5,-301 230.5,-281 27.5,-281"></polygon>
+<text text-anchor="start" x="29.5" y="-286.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-261 27.5,-281 230.5,-281 230.5,-261 27.5,-261"></polygon>
+<text text-anchor="start" x="29.5" y="-266.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-241 27.5,-261 230.5,-261 230.5,-241 27.5,-241"></polygon>
+<text text-anchor="start" x="29.5" y="-246.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-221 27.5,-241 230.5,-241 230.5,-221 27.5,-221"></polygon>
+<text text-anchor="start" x="29.5" y="-226.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-201 27.5,-221 230.5,-221 230.5,-201 27.5,-201"></polygon>
+<text text-anchor="start" x="29.5" y="-206.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-181 27.5,-201 230.5,-201 230.5,-181 27.5,-181"></polygon>
+<text text-anchor="start" x="29.5" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
+<polygon fill="#ffffff" stroke="transparent" points="27.5,-161 27.5,-181 230.5,-181 230.5,-161 27.5,-161"></polygon>
+<text text-anchor="start" x="29.5" y="-166.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="26,-160 26,-322 231,-322 231,-160 26,-160"></polygon>
+</g>
+<!-- g_location_disambiguated.tsv.head -->
+<g id="g_location_disambiguated.tsv.head" class="node">
+<title>g_location_disambiguated.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="268.5,-181 268.5,-201 469.5,-201 469.5,-181 268.5,-181"></polygon>
+<text text-anchor="start" x="270.2419" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_location_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-161 268.5,-181 469.5,-181 469.5,-161 268.5,-161"></polygon>
+<text text-anchor="start" x="270.5" y="-167.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-141 268.5,-161 469.5,-161 469.5,-141 268.5,-141"></polygon>
+<text text-anchor="start" x="270.5" y="-146.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_city</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-121 268.5,-141 469.5,-141 469.5,-121 268.5,-121"></polygon>
+<text text-anchor="start" x="270.5" y="-126.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_state</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-101 268.5,-121 469.5,-121 469.5,-101 268.5,-101"></polygon>
+<text text-anchor="start" x="270.5" y="-106.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_country</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-81 268.5,-101 469.5,-101 469.5,-81 268.5,-81"></polygon>
+<text text-anchor="start" x="270.5" y="-86.4" font-family="Times,serif" font-size="14.00" fill="#444444">latitude</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-61 268.5,-81 469.5,-81 469.5,-61 268.5,-61"></polygon>
+<text text-anchor="start" x="270.5" y="-66.4" font-family="Times,serif" font-size="14.00" fill="#444444">longitude</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-41 268.5,-61 469.5,-61 469.5,-41 268.5,-41"></polygon>
+<text text-anchor="start" x="270.5" y="-46.4" font-family="Times,serif" font-size="14.00" fill="#444444">county</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-21 268.5,-41 469.5,-41 469.5,-21 268.5,-21"></polygon>
+<text text-anchor="start" x="270.5" y="-26.4" font-family="Times,serif" font-size="14.00" fill="#444444">state_fips</text>
+<polygon fill="#ffffff" stroke="transparent" points="268.5,-1 268.5,-21 469.5,-21 469.5,-1 268.5,-1"></polygon>
+<text text-anchor="start" x="270.5" y="-6.4" font-family="Times,serif" font-size="14.00" fill="#444444">county_fips</text>
+<polygon fill="none" stroke="#555555" points="267,0 267,-202 470,-202 470,0 267,0"></polygon>
+</g>
+<!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
+<g id="g_inventor_disambiguated.tsv.head_1" class="edge">
+<title>g_inventor_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
+<path fill="none" stroke="#555555" d="M230.5,-171C243.4306,-171 248.9361,-171 258.3862,-171"></path>
+<polygon fill="#555555" stroke="#555555" points="258.5,-174.5001 268.5,-171 258.5,-167.5001 258.5,-174.5001"></polygon>
+</g>
+</g>
+</svg>
+
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/ruralinnovation\.github\.io\/proj-patents-report\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -2,9 +2,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": ".",
+    "title": "PatentsView Primer for CORI’s MDA",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "PatentsView provides insights about patents.\nThe data can be accessed either with either:\n\ntheir elastic search API and an R wrapper around it (patentsview)\nor by bulk download"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
   },
   {
     "objectID": "glossary.html",
@@ -18,10 +25,69 @@
     ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "map_relation.html",
+    "href": "map_relation.html",
+    "title": "Relations between tables",
     "section": "",
-    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
+    "text": "Here we have room for improvement if we want to automate it.",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
+  },
+  {
+    "objectID": "map_relation.html#first-step-download-nearly-all-data-sets.",
+    "href": "map_relation.html#first-step-download-nearly-all-data-sets.",
+    "title": "Relations between tables",
+    "section": "",
+    "text": "Here we have room for improvement if we want to automate it.",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
+  },
+  {
+    "objectID": "map_relation.html#second-step-get-a-sample-of-all-of-them.",
+    "href": "map_relation.html#second-step-get-a-sample-of-all-of-them.",
+    "title": "Relations between tables",
+    "section": "Second step: get a sample of all of them.",
+    "text": "Second step: get a sample of all of them.\nI went with the first 5 rows.\n# 1. create some repos\nmkdir -p data/data_raw/unziped\nmkdir -p data/data_sample/\n# 2. I could find a way to unzip just the first rows\nunzip data/data_raw/\\*.zip -d data/data_raw/unziped\n# 3. Get what we need\nfor file in data/data_raw/unziped/*.tsv ; do\n        head -n5 \"$file\" &gt;  \"$file.head\"\n        echo \"$file.head\" \ndone\n# 4. Store it were we need it\nmv data/data_raw/unziped/*.head data/data_sample\n# 5. delete not needed and rename\nrm -rf data/data_raw/unziped",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
+  },
+  {
+    "objectID": "map_relation.html#third-read-everything-in-r.",
+    "href": "map_relation.html#third-read-everything-in-r.",
+    "title": "Relations between tables",
+    "section": "Third: read everything in R.",
+    "text": "Third: read everything in R.\n\n\nCode\nread_sample &lt;- function(path_dir){\n    list_tsv &lt;- paste0(path_dir,\n                    list.files(path_dir, \n                                pattern = \".tsv\"))\n\n    list_samples &lt;- sapply(list_tsv, read.csv, sep =\"\\t\") \n    names(list_samples) &lt;- basename(names(list_samples))\n    return(list_samples)\n}\n\nlist_samples &lt;- read_sample(\"data/data_sample/\") \n\n# list2env(list_samples, .GlobalEnv)\nnames(list_samples)\n\n\n [1] \"g_application.tsv.head\"               \n [2] \"g_assignee_disambiguated.tsv.head\"    \n [3] \"g_attorney_disambiguated.tsv.head\"    \n [4] \"g_botanic.tsv.head\"                   \n [5] \"g_cpc_at_issue.tsv.head\"              \n [6] \"g_cpc_current.tsv.head\"               \n [7] \"g_cpc_title.tsv.head\"                 \n [8] \"g_examiner_not_disambiguated.tsv.head\"\n [9] \"g_figures.tsv.head\"                   \n[10] \"g_foreign_citation.tsv.head\"          \n[11] \"g_foreign_priority.tsv.head\"          \n[12] \"g_gov_interest_contracts.tsv.head\"    \n[13] \"g_gov_interest_org.tsv.head\"          \n[14] \"g_gov_interest.tsv.head\"              \n[15] \"g_inventor_disambiguated.tsv.head\"    \n[16] \"g_ipc_at_issue.tsv.head\"              \n[17] \"g_location_disambiguated.tsv.head\"    \n[18] \"g_other_reference.tsv.head\"           \n[19] \"g_patent.tsv.head\"                    \n[20] \"g_persistent_assignee.tsv.head\"       \n[21] \"g_persistent_inventor.tsv.head\"       \n[22] \"g_us_application_citation.tsv.head\"   \n[23] \"g_us_patent_citation.tsv.head\"        \n[24] \"g_uspc_at_issue.tsv.head\"             \n[25] \"g_wipo_technology.tsv.head\"",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
+  },
+  {
+    "objectID": "map_relation.html#forth-use-dm-to-do-a-nice-schema",
+    "href": "map_relation.html#forth-use-dm-to-do-a-nice-schema",
+    "title": "Relations between tables",
+    "section": "Forth: use DM to do a nice schema",
+    "text": "Forth: use DM to do a nice schema\n\n\nCode\nlibrary(dm)\n\n\n\nAttaching package: 'dm'\n\n\nThe following object is masked from 'package:stats':\n\n    filter\n\n\nCode\n# simplify my list I went back and forth\nkiss &lt;- c(\"g_application.tsv.head\", \n          \"g_assignee_disambiguated.tsv.head\",\n          \"g_inventor_disambiguated.tsv.head\", \n          \"g_location_disambiguated.tsv.head\")\n\n# yes dm can also just take a list of df\npot_schema_no_keys &lt;- as_dm(list_samples[kiss])\n\ntest &lt;- dm_draw(pot_schema_no_keys, view_type = 'all')\n\n\nSadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and nota sample to build the schema.\n\n\nCode\npath_to_tsv &lt;- \"data/data_raw/unziped/\"\n\ng_application &lt;- data.table::fread(paste0(path_to_tsv, \"g_application.tsv\"), sep = \"\\t\")\nenum_pk_candidates(g_application)\n\ng_assignee_dis &lt;- data.table::fread(paste0(path_to_tsv,\n                                           \"g_assignee_disambiguated.tsv\"), \n                                    sep =\"\\t\")\nenum_pk_candidates(g_assignee_dis)\n# no pk but should have patent_id / assignee_id and location id has fk\ng_inventor_dis &lt;- data.table::fread(paste0(path_to_tsv, \"g_inventor_disambiguated.tsv\"), sep = \"\\t\")\nenum_pk_candidates(g_inventor_dis)\n# no pk ..\ng_location_dis &lt;- data.table::fread(paste0(path_to_tsv, \"g_location_disambiguated.tsv\"), sep = \"\\t\") \nenum_pk_candidates(g_location_dis)\n# location ID\n\n\nSlowly adding them:\n\n\nCode\npot_schema_pk_keys &lt;- \n    pot_schema_no_keys |&gt;\n        dm_add_pk(g_application.tsv.head, columns = patent_id) |&gt; \n        dm_add_pk(g_location_disambiguated.tsv.head, columns = location_id)\n\n\n\nTesting fk with {dm}\n\n\nCode\ndm_enum_fk_candidates(\n  dm = pot_schema_pk_keys,\n  table = g_inventor_disambiguated.tsv.head,\n  ref_table = g_location_disambiguated.tsv.head \n)\n# some cleaning need to be done ...\ndm_enum_fk_candidates(\n  dm = pot_schema_pk_keys,\n  table = g_assignee_disambiguated.tsv.head,\n  ref_table = g_application.tsv.head \n)\n\n\nAdding them (uncorrected but that will be neded)\n\n\nCode\npot_schema_all_keys &lt;- \n    pot_schema_pk_keys |&gt;\n     dm_add_fk(g_inventor_disambiguated.tsv.head, \n                       location_id,\n                       g_location_disambiguated.tsv.head)",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
+  },
+  {
+    "objectID": "map_relation.html#five-try-to-render-that-schema",
+    "href": "map_relation.html#five-try-to-render-that-schema",
+    "title": "Relations between tables",
+    "section": "Five: Try to render that schema:",
+    "text": "Five: Try to render that schema:\n\n\nCode\n# kind of hacky \ntest &lt;- dm_draw(pot_schema_all_keys, view_type = 'all')\nbob &lt;- DiagrammeRsvg::export_svg(test)\n\nlibrary(htmltools)\nHTML(bob)\n\n\n\n\n\n\n\n\n%0\n\n\n\n\n\n\ng_application.tsv.head\n\ng_application.tsv.head\n\napplication_id\n\npatent_id\n\npatent_application_type\n\nfiling_date\n\nseries_code\n\nrule_47_flag\n\n\n\n\ng_assignee_disambiguated.tsv.head\n\ng_assignee_disambiguated.tsv.head\n\npatent_id\n\nassignee_sequence\n\nassignee_id\n\ndisambig_assignee_individual_name_first\n\ndisambig_assignee_individual_name_last\n\ndisambig_assignee_organization\n\nassignee_type\n\nlocation_id\n\n\n\n\ng_inventor_disambiguated.tsv.head\n\ng_inventor_disambiguated.tsv.head\n\npatent_id\n\ninventor_sequence\n\ninventor_id\n\ndisambig_inventor_name_first\n\ndisambig_inventor_name_last\n\ngender_code\n\nlocation_id\n\n\n\n\ng_location_disambiguated.tsv.head\n\ng_location_disambiguated.tsv.head\n\nlocation_id\n\ndisambig_city\n\ndisambig_state\n\ndisambig_country\n\nlatitude\n\nlongitude\n\ncounty\n\nstate_fips\n\ncounty_fips\n\n\n\n\ng_inventor_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id",
+    "crumbs": [
+      "Home",
+      "Relations between tables"
+    ]
   }
 ]
