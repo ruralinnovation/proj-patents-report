@@ -9,6 +9,9 @@ reference-location: margin
 ---
 
 
+PatentsView also has a very [nice](https://patentsview.org/glossary) glossary that I discovered later. 
+
+
 "**Assignee**: Organization(s) and individual(s) that have an ownership interest in the legal rights a patent offers"[^1]
 
 [^1]: source: https://asklib.library.hbs.edu/faq/267606

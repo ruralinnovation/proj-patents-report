@@ -9,9 +9,18 @@ reference-location: margin
 ---
 
 
+```{r}
+#| label: load lib
+library(dm)
+library(htmltools)
+library(DiagrammeRsvg)
+```
+
 ## First step: download nearly all data sets.
 
 Here we have room for improvement if we want to automate it.
+
+ - this could be a pot. improvement: https://books.ropensci.org/targets/cloud-storage.html 
 
 ## Second step: get a sample of all of them. 
 
@@ -57,8 +66,6 @@ names(list_samples)
 ## Forth: use DM to do a nice schema
 
 ```{r}
-library(dm)
-
 # simplify my list I went back and forth
 kiss <- c("g_application.tsv.head", 
           "g_assignee_disambiguated.tsv.head",
@@ -67,23 +74,36 @@ kiss <- c("g_application.tsv.head",
 
 # yes dm can also just take a list of df
 pot_schema_no_keys <- as_dm(list_samples[kiss])
-
-test <- dm_draw(pot_schema_no_keys, view_type = 'all')
 ```
 
-Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and nota sample to build the schema.
+Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and not sample to build the schema.
+
+I am first trying to get:
+
+- county
+
+- year
+
+- nb of inventor
+
+- nb of assignee (organisation)
+
+- nb of patents → using assignee for localisation
+
+
+dm offer high level function taht return tibble with result for the all table:
 
 ```{r}
 #| eval: false
 path_to_tsv <- "data/data_raw/unziped/"
-
+#  
 g_application <- data.table::fread(paste0(path_to_tsv, "g_application.tsv"), sep = "\t")
 enum_pk_candidates(g_application)
 
 g_assignee_dis <- data.table::fread(paste0(path_to_tsv,
                                            "g_assignee_disambiguated.tsv"), 
                                     sep ="\t")
-enum_pk_candidates(g_assignee_dis)
+assignee_sum <- enum_pk_candidates(g_assignee_dis)
 # no pk but should have patent_id / assignee_id and location id has fk
 g_inventor_dis <- data.table::fread(paste0(path_to_tsv, "g_inventor_disambiguated.tsv"), sep = "\t")
 enum_pk_candidates(g_inventor_dis)
@@ -91,6 +111,26 @@ enum_pk_candidates(g_inventor_dis)
 g_location_dis <- data.table::fread(paste0(path_to_tsv, "g_location_disambiguated.tsv"), sep = "\t") 
 enum_pk_candidates(g_location_dis)
 # location ID
+
+```
+
+
+But also more targeted functions:
+
+```{r}
+#| eval: false
+(check_key(g_location_dis, location_id)) # a bit of strange behavior it return null on success?
+# test if we have value in g_assignee_dis$location_id not in g_location_dis 
+check_subset(g_assignee_dis, location_id, g_location_dis, location_id)
+nrow(g_assignee_dis[g_assignee_dis$location_id == "",])
+#  90823
+nrow(g_assignee_dis)
+# 8206092 
+# small number does not have location 
+check_subset( g_assignee_dis[!g_assignee_dis$location_id == "",], location_id, g_location_dis, location_id)
+# return correct hence if we want use location as a fk for assignee we need to do that 
+
+(check_key(g_location_dis, location_id)) 
 ```
 
 Slowly adding them:
@@ -126,8 +166,11 @@ Adding them (uncorrected but that will be neded)
 pot_schema_all_keys <- 
     pot_schema_pk_keys |>
      dm_add_fk(g_inventor_disambiguated.tsv.head, 
-                       location_id,
-                       g_location_disambiguated.tsv.head)
+               location_id,
+               g_location_disambiguated.tsv.head) |>
+    dm_add_fk(g_assignee_disambiguated.tsv.head,
+              location_id,
+              g_location_disambiguated.tsv.head)
 ```
 
 ## Five: Try to render that schema:
@@ -137,7 +180,7 @@ pot_schema_all_keys <-
 test <- dm_draw(pot_schema_all_keys, view_type = 'all')
 bob <- DiagrammeRsvg::export_svg(test)
 
-library(htmltools)
-HTML(bob)
+
+htmltools::HTML(bob)
 ```
 
