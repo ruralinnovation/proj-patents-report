@@ -223,47 +223,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dm'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeRsvg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="first-step-download-nearly-all-data-sets." class="level2">
 <h2 class="anchored" data-anchor-id="first-step-download-nearly-all-data-sets.">First step: download nearly all data sets.</h2>
 <p>Here we have room for improvement if we want to automate it.</p>
+<ul>
+<li>this could be a pot. improvement: https://books.ropensci.org/targets/cloud-storage.html</li>
+</ul>
 </section>
 <section id="second-step-get-a-sample-of-all-of-them." class="level2">
 <h2 class="anchored" data-anchor-id="second-step-get-a-sample-of-all-of-them.">Second step: get a sample of all of them.</h2>
 <p>I went with the first 5 rows.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. create some repos</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_raw/unziped</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_sample/</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. I could find a way to unzip just the first rows</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> data/data_raw/\*.zip <span class="at">-d</span> data/data_raw/unziped</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Get what we need</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> data/data_raw/unziped/<span class="pp">*</span>.tsv <span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">head</span> <span class="at">-n5</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="op">&gt;</span>  <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Store it were we need it</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> data/data_raw/unziped/<span class="pp">*</span>.head data/data_sample</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. delete not needed and rename</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> data/data_raw/unziped</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. create some repos</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_raw/unziped</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/data_sample/</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. I could find a way to unzip just the first rows</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> data/data_raw/\*.zip <span class="at">-d</span> data/data_raw/unziped</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Get what we need</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> data/data_raw/unziped/<span class="pp">*</span>.tsv <span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">head</span> <span class="at">-n5</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="op">&gt;</span>  <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">"</span><span class="va">$file</span><span class="st">.head"</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Store it were we need it</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> data/data_raw/unziped/<span class="pp">*</span>.head data/data_sample</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. delete not needed and rename</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> data/data_raw/unziped</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="third-read-everything-in-r." class="level2">
 <h2 class="anchored" data-anchor-id="third-read-everything-in-r.">Third: read everything in R.</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>read_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(path_dir){</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    list_tsv <span class="ot">&lt;-</span> <span class="fu">paste0</span>(path_dir,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list.files</span>(path_dir, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">pattern =</span> <span class="st">".tsv"</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    list_samples <span class="ot">&lt;-</span> <span class="fu">sapply</span>(list_tsv, read.csv, <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(list_samples) <span class="ot">&lt;-</span> <span class="fu">basename</span>(<span class="fu">names</span>(list_samples))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(list_samples)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>list_samples <span class="ot">&lt;-</span> <span class="fu">read_sample</span>(<span class="st">"data/data_sample/"</span>) </span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># list2env(list_samples, .GlobalEnv)</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(list_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>read_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(path_dir){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    list_tsv <span class="ot">&lt;-</span> <span class="fu">paste0</span>(path_dir,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list.files</span>(path_dir, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">pattern =</span> <span class="st">".tsv"</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    list_samples <span class="ot">&lt;-</span> <span class="fu">sapply</span>(list_tsv, read.csv, <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(list_samples) <span class="ot">&lt;-</span> <span class="fu">basename</span>(<span class="fu">names</span>(list_samples))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(list_samples)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>list_samples <span class="ot">&lt;-</span> <span class="fu">read_sample</span>(<span class="st">"data/data_sample/"</span>) </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># list2env(list_samples, .GlobalEnv)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(list_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "g_application.tsv.head"               
@@ -299,61 +322,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dm'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:stats':
-
-    filter</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simplify my list I went back and forth</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>kiss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_application.tsv.head"</span>, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_location_disambiguated.tsv.head"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[kiss])</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_no_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simplify my list I went back and forth</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>kiss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_application.tsv.head"</span>, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_location_disambiguated.tsv.head"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[kiss])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and nota sample to build the schema.</p>
+<p>Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and not sample to build the schema.</p>
+<p>I am first trying to get:</p>
+<ul>
+<li><p>county</p></li>
+<li><p>year</p></li>
+<li><p>nb of inventor</p></li>
+<li><p>nb of assignee (organisation)</p></li>
+<li><p>nb of patents → using assignee for localisation</p></li>
+</ul>
+<p>dm offer high level function taht return tibble with result for the all table:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path_to_tsv <span class="ot">&lt;-</span> <span class="st">"data/data_raw/unziped/"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>g_application <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_application.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_application)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>g_assignee_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"g_assignee_disambiguated.tsv"</span>), </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_assignee_dis)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk but should have patent_id / assignee_id and location id has fk</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>g_inventor_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_inventor_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_inventor_dis)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk ..</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>g_location_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_location_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_location_dis)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># location ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>path_to_tsv <span class="ot">&lt;-</span> <span class="st">"data/data_raw/unziped/"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  </span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>g_application <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_application.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_application)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>g_assignee_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"g_assignee_disambiguated.tsv"</span>), </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sep =</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>assignee_sum <span class="ot">&lt;-</span> <span class="fu">enum_pk_candidates</span>(g_assignee_dis)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk but should have patent_id / assignee_id and location id has fk</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>g_inventor_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_inventor_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_inventor_dis)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk ..</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>g_location_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_location_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_location_dis)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># location ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>But also more targeted functions:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) <span class="co"># a bit of strange behavior it return null on success?</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># test if we have value in g_assignee_dis$location_id not in g_location_dis </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis, location_id, g_location_dis, location_id)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis[g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  90823</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 8206092 </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># small number does not have location </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>( g_assignee_dis[<span class="sc">!</span>g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,], location_id, g_location_dis, location_id)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># return correct hence if we want use location as a fk for assignee we need to do that </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Slowly adding them:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pot_schema_pk_keys <span class="ot">&lt;-</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_no_keys <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_application.tsv.head, <span class="at">columns =</span> patent_id) <span class="sc">|&gt;</span> </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_location_disambiguated.tsv.head, <span class="at">columns =</span> location_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pot_schema_pk_keys <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_no_keys <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_application.tsv.head, <span class="at">columns =</span> patent_id) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_location_disambiguated.tsv.head, <span class="at">columns =</span> location_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="testing-fk-with-dm" class="level3">
@@ -361,28 +396,31 @@ Attaching package: 'dm'</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_inventor_disambiguated.tsv.head,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_location_disambiguated.tsv.head </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># some cleaning need to be done ...</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_assignee_disambiguated.tsv.head,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_application.tsv.head </span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_inventor_disambiguated.tsv.head,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_location_disambiguated.tsv.head </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># some cleaning need to be done ...</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dm_enum_fk_candidates</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dm =</span> pot_schema_pk_keys,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">table =</span> g_assignee_disambiguated.tsv.head,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ref_table =</span> g_application.tsv.head </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Adding them (uncorrected but that will be neded)</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pot_schema_all_keys <span class="ot">&lt;-</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_pk_keys <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dm_add_fk</span>(g_inventor_disambiguated.tsv.head, </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                       location_id,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                       g_location_disambiguated.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pot_schema_all_keys <span class="ot">&lt;-</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_pk_keys <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dm_add_fk</span>(g_inventor_disambiguated.tsv.head, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>               location_id,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>               g_location_disambiguated.tsv.head) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_assignee_disambiguated.tsv.head,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>              location_id,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>              g_location_disambiguated.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -392,12 +430,12 @@ Attaching package: 'dm'</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kind of hacky </span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_all_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>bob <span class="ot">&lt;-</span> DiagrammeRsvg<span class="sc">::</span><span class="fu">export_svg</span>(test)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">HTML</span>(bob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kind of hacky </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_all_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>bob <span class="ot">&lt;-</span> DiagrammeRsvg<span class="sc">::</span><span class="fu">export_svg</span>(test)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>htmltools<span class="sc">::</span><span class="fu">HTML</span>(bob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
@@ -405,106 +443,112 @@ Attaching package: 'dm'</code></pre>
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %0 Pages: 1 -->
-<svg width="478pt" height="580pt" viewbox="0.00 0.00 478.00 580.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 576)">
+<svg width="489pt" height="492pt" viewbox="0.00 0.00 489.00 492.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 488)">
 <title>%0</title>
 <g id="a_graph0"><a title="Data Model">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-576 474,-576 474,4 -4,4"></polygon>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-488 485,-488 485,4 -4,4"></polygon>
 </a>
 </g>
 <!-- g_application.tsv.head -->
 <g id="g_application.tsv.head" class="node">
 <title>g_application.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="1,-511 1,-531 139,-531 139,-511 1,-511"></polygon>
-<text text-anchor="start" x="7.0147" y="-516.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_application.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-491 1,-511 139,-511 139,-491 1,-491"></polygon>
-<text text-anchor="start" x="3" y="-496.4" font-family="Times,serif" font-size="14.00" fill="#444444">application_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-471 1,-491 139,-491 139,-471 1,-471"></polygon>
-<text text-anchor="start" x="3" y="-477.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-451 1,-471 139,-471 139,-451 1,-451"></polygon>
-<text text-anchor="start" x="2.7391" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_application_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-431 1,-451 139,-451 139,-431 1,-431"></polygon>
-<text text-anchor="start" x="3" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">filing_date</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-411 1,-431 139,-431 139,-411 1,-411"></polygon>
-<text text-anchor="start" x="3" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">series_code</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-391 1,-411 139,-411 139,-391 1,-391"></polygon>
-<text text-anchor="start" x="3" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">rule_47_flag</text>
-<polygon fill="none" stroke="#555555" points="0,-390 0,-532 140,-532 140,-390 0,-390"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="266,-463 266,-483 404,-483 404,-463 266,-463"></polygon>
+<text text-anchor="start" x="272.0147" y="-468.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_application.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-443 266,-463 404,-463 404,-443 266,-443"></polygon>
+<text text-anchor="start" x="268" y="-448.4" font-family="Times,serif" font-size="14.00" fill="#444444">application_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-423 266,-443 404,-443 404,-423 266,-423"></polygon>
+<text text-anchor="start" x="268" y="-429.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-403 266,-423 404,-423 404,-403 266,-403"></polygon>
+<text text-anchor="start" x="267.7391" y="-408.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_application_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-383 266,-403 404,-403 404,-383 266,-383"></polygon>
+<text text-anchor="start" x="268" y="-388.4" font-family="Times,serif" font-size="14.00" fill="#444444">filing_date</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-363 266,-383 404,-383 404,-363 266,-363"></polygon>
+<text text-anchor="start" x="268" y="-368.4" font-family="Times,serif" font-size="14.00" fill="#444444">series_code</text>
+<polygon fill="#ffffff" stroke="transparent" points="266,-343 266,-363 404,-363 404,-343 266,-343"></polygon>
+<text text-anchor="start" x="268" y="-348.4" font-family="Times,serif" font-size="14.00" fill="#444444">rule_47_flag</text>
+<polygon fill="none" stroke="#555555" points="265,-342 265,-484 405,-484 405,-342 265,-342"></polygon>
 </g>
 <!-- g_assignee_disambiguated.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head" class="node">
 <title>g_assignee_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="199,-551 199,-571 439,-571 439,-551 199,-551"></polygon>
-<text text-anchor="start" x="219.0806" y="-556.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-531 199,-551 439,-551 439,-531 199,-531"></polygon>
-<text text-anchor="start" x="201" y="-536.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-511 199,-531 439,-531 439,-511 199,-511"></polygon>
-<text text-anchor="start" x="201" y="-516.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-491 199,-511 439,-511 439,-491 199,-491"></polygon>
-<text text-anchor="start" x="201" y="-496.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-471 199,-491 439,-491 439,-471 199,-471"></polygon>
-<text text-anchor="start" x="200.8008" y="-476.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-451 199,-471 439,-471 439,-451 199,-451"></polygon>
-<text text-anchor="start" x="201" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-431 199,-451 439,-451 439,-431 199,-431"></polygon>
-<text text-anchor="start" x="201" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-411 199,-431 439,-431 439,-411 199,-411"></polygon>
-<text text-anchor="start" x="201" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="199,-391 199,-411 439,-411 439,-391 199,-391"></polygon>
-<text text-anchor="start" x="201" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="198,-390 198,-572 440,-572 440,-390 198,-390"></polygon>
-</g>
-<!-- g_inventor_disambiguated.tsv.head -->
-<g id="g_inventor_disambiguated.tsv.head" class="node">
-<title>g_inventor_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="27.5,-301 27.5,-321 230.5,-321 230.5,-301 27.5,-301"></polygon>
-<text text-anchor="start" x="29.4642" y="-306.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-281 27.5,-301 230.5,-301 230.5,-281 27.5,-281"></polygon>
-<text text-anchor="start" x="29.5" y="-286.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-261 27.5,-281 230.5,-281 230.5,-261 27.5,-261"></polygon>
-<text text-anchor="start" x="29.5" y="-266.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-241 27.5,-261 230.5,-261 230.5,-241 27.5,-241"></polygon>
-<text text-anchor="start" x="29.5" y="-246.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-221 27.5,-241 230.5,-241 230.5,-221 27.5,-221"></polygon>
-<text text-anchor="start" x="29.5" y="-226.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-201 27.5,-221 230.5,-221 230.5,-201 27.5,-201"></polygon>
-<text text-anchor="start" x="29.5" y="-206.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-181 27.5,-201 230.5,-201 230.5,-181 27.5,-181"></polygon>
-<text text-anchor="start" x="29.5" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
-<polygon fill="#ffffff" stroke="transparent" points="27.5,-161 27.5,-181 230.5,-181 230.5,-161 27.5,-161"></polygon>
-<text text-anchor="start" x="29.5" y="-166.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="26,-160 26,-322 231,-322 231,-160 26,-160"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="1,-411 1,-431 241,-431 241,-411 1,-411"></polygon>
+<text text-anchor="start" x="21.0806" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-391 1,-411 241,-411 241,-391 1,-391"></polygon>
+<text text-anchor="start" x="3" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-371 1,-391 241,-391 241,-371 1,-371"></polygon>
+<text text-anchor="start" x="3" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-351 1,-371 241,-371 241,-351 1,-351"></polygon>
+<text text-anchor="start" x="3" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-331 1,-351 241,-351 241,-331 1,-331"></polygon>
+<text text-anchor="start" x="2.8008" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-311 1,-331 241,-331 241,-311 1,-311"></polygon>
+<text text-anchor="start" x="3" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-291 1,-311 241,-311 241,-291 1,-291"></polygon>
+<text text-anchor="start" x="3" y="-296.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-271 1,-291 241,-291 241,-271 1,-271"></polygon>
+<text text-anchor="start" x="3" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-251 1,-271 241,-271 241,-251 1,-251"></polygon>
+<text text-anchor="start" x="3" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="0,-250 0,-432 242,-432 242,-250 0,-250"></polygon>
 </g>
 <!-- g_location_disambiguated.tsv.head -->
 <g id="g_location_disambiguated.tsv.head" class="node">
 <title>g_location_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="268.5,-181 268.5,-201 469.5,-201 469.5,-181 268.5,-181"></polygon>
-<text text-anchor="start" x="270.2419" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_location_disambiguated.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-161 268.5,-181 469.5,-181 469.5,-161 268.5,-161"></polygon>
-<text text-anchor="start" x="270.5" y="-167.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-141 268.5,-161 469.5,-161 469.5,-141 268.5,-141"></polygon>
-<text text-anchor="start" x="270.5" y="-146.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_city</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-121 268.5,-141 469.5,-141 469.5,-121 268.5,-121"></polygon>
-<text text-anchor="start" x="270.5" y="-126.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_state</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-101 268.5,-121 469.5,-121 469.5,-101 268.5,-101"></polygon>
-<text text-anchor="start" x="270.5" y="-106.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_country</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-81 268.5,-101 469.5,-101 469.5,-81 268.5,-81"></polygon>
-<text text-anchor="start" x="270.5" y="-86.4" font-family="Times,serif" font-size="14.00" fill="#444444">latitude</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-61 268.5,-81 469.5,-81 469.5,-61 268.5,-61"></polygon>
-<text text-anchor="start" x="270.5" y="-66.4" font-family="Times,serif" font-size="14.00" fill="#444444">longitude</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-41 268.5,-61 469.5,-61 469.5,-41 268.5,-41"></polygon>
-<text text-anchor="start" x="270.5" y="-46.4" font-family="Times,serif" font-size="14.00" fill="#444444">county</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-21 268.5,-41 469.5,-41 469.5,-21 268.5,-21"></polygon>
-<text text-anchor="start" x="270.5" y="-26.4" font-family="Times,serif" font-size="14.00" fill="#444444">state_fips</text>
-<polygon fill="#ffffff" stroke="transparent" points="268.5,-1 268.5,-21 469.5,-21 469.5,-1 268.5,-1"></polygon>
-<text text-anchor="start" x="270.5" y="-6.4" font-family="Times,serif" font-size="14.00" fill="#444444">county_fips</text>
-<polygon fill="none" stroke="#555555" points="267,0 267,-202 470,-202 470,0 267,0"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="279.5,-181 279.5,-201 480.5,-201 480.5,-181 279.5,-181"></polygon>
+<text text-anchor="start" x="281.2419" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_location_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-161 279.5,-181 480.5,-181 480.5,-161 279.5,-161"></polygon>
+<text text-anchor="start" x="281.5" y="-167.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-141 279.5,-161 480.5,-161 480.5,-141 279.5,-141"></polygon>
+<text text-anchor="start" x="281.5" y="-146.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_city</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-121 279.5,-141 480.5,-141 480.5,-121 279.5,-121"></polygon>
+<text text-anchor="start" x="281.5" y="-126.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_state</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-101 279.5,-121 480.5,-121 480.5,-101 279.5,-101"></polygon>
+<text text-anchor="start" x="281.5" y="-106.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_country</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-81 279.5,-101 480.5,-101 480.5,-81 279.5,-81"></polygon>
+<text text-anchor="start" x="281.5" y="-86.4" font-family="Times,serif" font-size="14.00" fill="#444444">latitude</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-61 279.5,-81 480.5,-81 480.5,-61 279.5,-61"></polygon>
+<text text-anchor="start" x="281.5" y="-66.4" font-family="Times,serif" font-size="14.00" fill="#444444">longitude</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-41 279.5,-61 480.5,-61 480.5,-41 279.5,-41"></polygon>
+<text text-anchor="start" x="281.5" y="-46.4" font-family="Times,serif" font-size="14.00" fill="#444444">county</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-21 279.5,-41 480.5,-41 480.5,-21 279.5,-21"></polygon>
+<text text-anchor="start" x="281.5" y="-26.4" font-family="Times,serif" font-size="14.00" fill="#444444">state_fips</text>
+<polygon fill="#ffffff" stroke="transparent" points="279.5,-1 279.5,-21 480.5,-21 480.5,-1 279.5,-1"></polygon>
+<text text-anchor="start" x="281.5" y="-6.4" font-family="Times,serif" font-size="14.00" fill="#444444">county_fips</text>
+<polygon fill="none" stroke="#555555" points="278,0 278,-202 481,-202 481,0 278,0"></polygon>
+</g>
+<!-- g_assignee_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
+<g id="g_assignee_disambiguated.tsv.head_1" class="edge">
+<title>g_assignee_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
+<path fill="none" stroke="#555555" d="M241,-261C280.4275,-261 244.2811,-187.084 269.5385,-173.2247"></path>
+<polygon fill="#555555" stroke="#555555" points="270.5033,-176.5956 279.5,-171 268.9775,-169.7639 270.5033,-176.5956"></polygon>
+</g>
+<!-- g_inventor_disambiguated.tsv.head -->
+<g id="g_inventor_disambiguated.tsv.head" class="node">
+<title>g_inventor_disambiguated.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="20,-211 20,-231 223,-231 223,-211 20,-211"></polygon>
+<text text-anchor="start" x="21.9642" y="-216.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-191 20,-211 223,-211 223,-191 20,-191"></polygon>
+<text text-anchor="start" x="22" y="-196.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-171 20,-191 223,-191 223,-171 20,-171"></polygon>
+<text text-anchor="start" x="22" y="-176.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-151 20,-171 223,-171 223,-151 20,-151"></polygon>
+<text text-anchor="start" x="22" y="-156.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-131 20,-151 223,-151 223,-131 20,-131"></polygon>
+<text text-anchor="start" x="22" y="-136.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-111 20,-131 223,-131 223,-111 20,-111"></polygon>
+<text text-anchor="start" x="22" y="-116.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-91 20,-111 223,-111 223,-91 20,-91"></polygon>
+<text text-anchor="start" x="22" y="-96.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-71 20,-91 223,-91 223,-71 20,-71"></polygon>
+<text text-anchor="start" x="22" y="-76.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="18.5,-70 18.5,-232 223.5,-232 223.5,-70 18.5,-70"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head_1" class="edge">
 <title>g_inventor_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
-<path fill="none" stroke="#555555" d="M230.5,-171C243.4306,-171 248.9361,-171 258.3862,-171"></path>
-<polygon fill="#555555" stroke="#555555" points="258.5,-174.5001 268.5,-171 258.5,-167.5001 258.5,-174.5001"></polygon>
+<path fill="none" stroke="#555555" d="M223,-81C266.3546,-81 237.9253,-156.84 269.5029,-169.2825"></path>
+<polygon fill="#555555" stroke="#555555" points="269.0517,-172.7562 279.5,-171 270.237,-165.8573 269.0517,-172.7562"></polygon>
 </g>
 </g>
 </svg>
