@@ -31,6 +31,7 @@ jobs:
             any::DT
             any::dm
             any::htmltools
+            any::DiagrammeR
             any::DiagrammeRsvg
   
       - name: Render and Publish
