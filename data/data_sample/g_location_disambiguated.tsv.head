@@ -1,0 +1,5 @@
+"location_id"	"disambig_city"	"disambig_state"	"disambig_country"	"latitude"	"longitude"	"county"	"state_fips"	"county_fips"
+"00235947-16c8-11ed-9b5f-1234bde3cd05"	"Westfield"	"PA"	"US"	41.9192368	-77.5388744	"Tioga"	"42"	"117"
+"00236a27-16c8-11ed-9b5f-1234bde3cd05"	"Helfenstein"	"PA"	"US"	40.7504993	-76.4473336	"Schuylkill County"	"42"	"107"
+"00236f47-16c8-11ed-9b5f-1234bde3cd05"	"Pine Forge"	"PA"	"US"	40.2819205	-75.6922357	"Berks County"	"42"	"011"
+"00237418-16c8-11ed-9b5f-1234bde3cd05"	"Partlow"	"VA"	"US"	38.038748	-77.6388764	"Spotsylvania County"	"51"	"177"

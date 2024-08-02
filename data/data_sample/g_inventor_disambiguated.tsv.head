@@ -1,0 +1,5 @@
+"patent_id"	"inventor_sequence"	"inventor_id"	"disambig_inventor_name_first"	"disambig_inventor_name_last"	"gender_code"	"location_id"
+"D1006496"	0	"fl:we_ln:jiang-145"	"Wenjing"	"Jiang"	"F"	"9d072d42-49af-11ed-9879-1234bde3cd05"
+"6584128"	0	"fl:ri_ln:kroeger-1"	"Richard"	"Kroeger"	"M"	""
+"4789863"	0	"fl:th_ln:bush-1"	"Thomas A."	"Bush"	"M"	""
+"11161990"	1	"fl:ma_ln:boudreaux-4"	"Matthew F."	"Boudreaux"	"M"	"04726932-16c8-11ed-9b5f-1234bde3cd05"

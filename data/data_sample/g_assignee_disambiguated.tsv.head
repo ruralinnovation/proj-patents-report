@@ -1,0 +1,5 @@
+"patent_id"	"assignee_sequence"	"assignee_id"	"disambig_assignee_individual_name_first"	"disambig_assignee_individual_name_last"	"disambig_assignee_organization"	"assignee_type"	"location_id"
+"4488683"	0	"9b492cdf-bf1d-4d5b-90a1-59437d5093da"	""	""	"Metal Works Ramat David"	3	"50dc5d46-16c8-11ed-9b5f-1234bde3cd05"
+"11872626"	0	"3befd1fb-7a72-4097-92dd-da40cf5ba69f"	""	""	"DIVERGENT TECHNOLOGIES, INC."	2	"15c69712-16c8-11ed-9b5f-1234bde3cd05"
+"5856666"	0	"fe09b571-b194-4deb-8299-4787a0b31dbb"	""	""	"U.S. Philips Corporation"	2	"92237ca2-16c8-11ed-9b5f-1234bde3cd05"
+"5204210"	0	"a1c32670-b276-44f4-99f5-d9c5163cf7b3"	""	""	"Xerox Corporation"	2	"0cd1998f-16c8-11ed-9b5f-1234bde3cd05"

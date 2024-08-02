@@ -12,6 +12,7 @@ website:
     style: "docked"
     search: true
     contents:
+      - map_relation.qmd
       - glossary.qmd 
 
 format:

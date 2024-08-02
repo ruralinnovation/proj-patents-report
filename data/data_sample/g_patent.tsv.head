@@ -1,0 +1,5 @@
+"patent_id"	"patent_type"	"patent_date"	"patent_title"	"wipo_kind"	"num_claims"	"withdrawn"	"filename"
+"10000000"	"utility"	"2018-06-19"	"Coherent LADAR using intra-pixel quadrature detection"	"B2"	20	0	"ipg180619.xml"
+"10000001"	"utility"	"2018-06-19"	"Injection molding machine and mold thickness control method"	"B2"	12	0	"ipg180619.xml"
+"10000002"	"utility"	"2018-06-19"	"Method for manufacturing polymer film and co-extruded film"	"B2"	9	0	"ipg180619.xml"
+"10000003"	"utility"	"2018-06-19"	"Method for producing a container from a thermoplastic"	"B2"	18	0	"ipg180619.xml"

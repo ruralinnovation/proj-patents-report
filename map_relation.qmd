@@ -1,0 +1,143 @@
+---
+title: "Relations between tables"
+date: last-modified
+format: 
+  html:
+    code-fold: true
+engine: knitr
+reference-location: margin
+---
+
+
+## First step: download nearly all data sets.
+
+Here we have room for improvement if we want to automate it.
+
+## Second step: get a sample of all of them. 
+
+I went with the first 5 rows.   
+
+```bash
+# 1. create some repos
+mkdir -p data/data_raw/unziped
+mkdir -p data/data_sample/
+# 2. I could find a way to unzip just the first rows
+unzip data/data_raw/\*.zip -d data/data_raw/unziped
+# 3. Get what we need
+for file in data/data_raw/unziped/*.tsv ; do
+        head -n5 "$file" >  "$file.head"
+        echo "$file.head" 
+done
+# 4. Store it were we need it
+mv data/data_raw/unziped/*.head data/data_sample
+# 5. delete not needed and rename
+rm -rf data/data_raw/unziped
+```
+
+## Third: read everything in R. 
+
+```{r}
+#| label: read all tsv
+read_sample <- function(path_dir){
+    list_tsv <- paste0(path_dir,
+                    list.files(path_dir, 
+                                pattern = ".tsv"))
+
+    list_samples <- sapply(list_tsv, read.csv, sep ="\t") 
+    names(list_samples) <- basename(names(list_samples))
+    return(list_samples)
+}
+
+list_samples <- read_sample("data/data_sample/") 
+
+# list2env(list_samples, .GlobalEnv)
+names(list_samples)
+``` 
+
+## Forth: use DM to do a nice schema
+
+```{r}
+library(dm)
+
+# simplify my list I went back and forth
+kiss <- c("g_application.tsv.head", 
+          "g_assignee_disambiguated.tsv.head",
+          "g_inventor_disambiguated.tsv.head", 
+          "g_location_disambiguated.tsv.head")
+
+# yes dm can also just take a list of df
+pot_schema_no_keys <- as_dm(list_samples[kiss])
+
+test <- dm_draw(pot_schema_no_keys, view_type = 'all')
+```
+
+Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and nota sample to build the schema.
+
+```{r}
+#| eval: false
+path_to_tsv <- "data/data_raw/unziped/"
+
+g_application <- data.table::fread(paste0(path_to_tsv, "g_application.tsv"), sep = "\t")
+enum_pk_candidates(g_application)
+
+g_assignee_dis <- data.table::fread(paste0(path_to_tsv,
+                                           "g_assignee_disambiguated.tsv"), 
+                                    sep ="\t")
+enum_pk_candidates(g_assignee_dis)
+# no pk but should have patent_id / assignee_id and location id has fk
+g_inventor_dis <- data.table::fread(paste0(path_to_tsv, "g_inventor_disambiguated.tsv"), sep = "\t")
+enum_pk_candidates(g_inventor_dis)
+# no pk ..
+g_location_dis <- data.table::fread(paste0(path_to_tsv, "g_location_disambiguated.tsv"), sep = "\t") 
+enum_pk_candidates(g_location_dis)
+# location ID
+```
+
+Slowly adding them:
+
+```{r}
+pot_schema_pk_keys <- 
+    pot_schema_no_keys |>
+        dm_add_pk(g_application.tsv.head, columns = patent_id) |> 
+        dm_add_pk(g_location_disambiguated.tsv.head, columns = location_id)
+```
+
+
+### Testing fk wit {dm}
+```{r}
+#| eval: false
+dm_enum_fk_candidates(
+  dm = pot_schema_pk_keys,
+  table = g_inventor_disambiguated.tsv.head,
+  ref_table = g_location_disambiguated.tsv.head 
+)
+# some cleaning need to be done ...
+dm_enum_fk_candidates(
+  dm = pot_schema_pk_keys,
+  table = g_assignee_disambiguated.tsv.head,
+  ref_table = g_application.tsv.head 
+)
+```
+
+Adding them (uncorrected but that will be neded)
+
+
+```{r}
+pot_schema_all_keys <- 
+    pot_schema_pk_keys |>
+     dm_add_fk(g_inventor_disambiguated.tsv.head, 
+                       location_id,
+                       g_location_disambiguated.tsv.head)
+```
+
+## Five: Try to render that schema:
+
+```{r}
+# kind of hacky 
+test <- dm_draw(pot_schema_all_keys, view_type = 'all')
+bob <- DiagrammeRsvg::export_svg(test)
+
+library(htmltools)
+HTML(bob)
+```
+
