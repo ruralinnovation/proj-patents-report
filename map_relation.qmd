@@ -11,10 +11,12 @@ reference-location: margin
 
 ```{r}
 #| label: load lib
-library(dm)
+library(dm, warn.conflicts = FALSE)
 library(htmltools)
 library(DiagrammeRsvg)
 ```
+
+# EDA: Exploratory Data Analysis
 
 ## First step: download nearly all data sets.
 
@@ -76,7 +78,7 @@ i_data <- c("g_assignee_disambiguated.tsv.head",
 pot_schema_no_keys <- as_dm(list_samples[i_data])
 ```
 
-Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and not sample to build the schema.
+Sadly I need to first test what are the primary and foreign key (PK and FK) and if I can trust the data about that: meaning reading a bunch of big csv and not only sampling to build the schema.
 
 I am first trying to get:
 
@@ -149,24 +151,7 @@ pot_schema_pk_keys <-
 ```
 
 
-### Testing fk with {dm}
-
-```{r}
-#| eval: false
-dm_enum_fk_candidates(
-  dm = pot_schema_pk_keys,
-  table = g_inventor_disambiguated.tsv.head,
-  ref_table = g_location_disambiguated.tsv.head 
-)
-# some cleaning need to be done ...
-dm_enum_fk_candidates(
-  dm = pot_schema_pk_keys,
-  table = g_assignee_disambiguated.tsv.head,
-  ref_table = g_application.tsv.head 
-)
-```
-
-Adding them (uncorrected but that will be neded)
+Adding Foreign keys:
 
 
 ```{r}
@@ -198,4 +183,16 @@ schema <- dm_draw(pot_schema_all_keys, view_type = 'all')
 schema_html <- DiagrammeRsvg::export_svg(schema)
 htmltools::HTML(schema_html )
 ```
+
+# Producing a summary table
+
+ Sixth: given that logic build a summary table by county/year
+
+ We will probably do it in at least to n steps:
+
+ - Getting counties, yes right now we do not know if we are missing some counties and we are still unsure what vintage of census patentsview is using.
+
+ - linking patent to assignee then link to location
+
+ - linking patent to inventore then link to location 
 
