@@ -67,13 +67,13 @@ names(list_samples)
 
 ```{r}
 # simplify my list I went back and forth
-kiss <- c("g_application.tsv.head", 
-          "g_assignee_disambiguated.tsv.head",
-          "g_inventor_disambiguated.tsv.head", 
-          "g_location_disambiguated.tsv.head")
+i_data <- c("g_assignee_disambiguated.tsv.head",
+            "g_inventor_disambiguated.tsv.head", 
+            "g_location_disambiguated.tsv.head", 
+            "g_patent.tsv.head")
 
 # yes dm can also just take a list of df
-pot_schema_no_keys <- as_dm(list_samples[kiss])
+pot_schema_no_keys <- as_dm(list_samples[i_data])
 ```
 
 Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and not sample to build the schema.
@@ -110,6 +110,9 @@ enum_pk_candidates(g_inventor_dis)
 # no pk ..
 g_location_dis <- data.table::fread(paste0(path_to_tsv, "g_location_disambiguated.tsv"), sep = "\t") 
 enum_pk_candidates(g_location_dis)
+
+g_patent <- data.table::fread(paste0(path_to_tsv, "g_patent.tsv"), sep = "\t")
+enum_pk_candidates(g_patent)
 # location ID
 
 ```
@@ -121,16 +124,19 @@ But also more targeted functions:
 #| eval: false
 (check_key(g_location_dis, location_id)) # a bit of strange behavior it return null on success?
 # test if we have value in g_assignee_dis$location_id not in g_location_dis 
+# tests if x is a subset of y
 check_subset(g_assignee_dis, location_id, g_location_dis, location_id)
 nrow(g_assignee_dis[g_assignee_dis$location_id == "",])
 #  90823
 nrow(g_assignee_dis)
 # 8206092 
 # small number does not have location 
-check_subset( g_assignee_dis[!g_assignee_dis$location_id == "",], location_id, g_location_dis, location_id)
+check_subset(g_assignee_dis[!g_assignee_dis$location_id == "",], location_id, g_location_dis, location_id)
 # return correct hence if we want use location as a fk for assignee we need to do that 
-
 (check_key(g_location_dis, location_id)) 
+## patent id 
+check_subset(g_assignee_dis[!g_assignee_dis$location_id == "",], patent_id, g_patent, patent_id)
+check_subset(g_inventor_dis, patent_id, g_patent, patent_id)
 ```
 
 Slowly adding them:
@@ -138,12 +144,13 @@ Slowly adding them:
 ```{r}
 pot_schema_pk_keys <- 
     pot_schema_no_keys |>
-        dm_add_pk(g_application.tsv.head, columns = patent_id) |> 
-        dm_add_pk(g_location_disambiguated.tsv.head, columns = location_id)
+        dm_add_pk(g_location_disambiguated.tsv.head, columns = location_id) |> 
+        dm_add_pk(g_patent.tsv.head, columns = patent_id)
 ```
 
 
 ### Testing fk with {dm}
+
 ```{r}
 #| eval: false
 dm_enum_fk_candidates(
@@ -163,6 +170,7 @@ Adding them (uncorrected but that will be neded)
 
 
 ```{r}
+#| label: add foreign key
 pot_schema_all_keys <- 
     pot_schema_pk_keys |>
      dm_add_fk(g_inventor_disambiguated.tsv.head, 
@@ -170,17 +178,24 @@ pot_schema_all_keys <-
                g_location_disambiguated.tsv.head) |>
     dm_add_fk(g_assignee_disambiguated.tsv.head,
               location_id,
-              g_location_disambiguated.tsv.head)
+              g_location_disambiguated.tsv.head) |> 
+    dm_add_fk(g_assignee_disambiguated.tsv.head,
+              patent_id,
+              g_patent.tsv.head) |>
+    dm_add_fk(g_inventor_disambiguated.tsv.head,
+              patent_id,
+              g_patent.tsv.head)
 ```
 
 ## Five: Try to render that schema:
 
 ```{r}
+#| label: display schema
+
+schema <- dm_draw(pot_schema_all_keys, view_type = 'all')
+
 # kind of hacky 
-test <- dm_draw(pot_schema_all_keys, view_type = 'all')
-bob <- DiagrammeRsvg::export_svg(test)
-
-
-htmltools::HTML(bob)
+schema_html <- DiagrammeRsvg::export_svg(schema)
+htmltools::HTML(schema_html )
 ```
 
