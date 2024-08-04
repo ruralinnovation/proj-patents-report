@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-08-02">
+<meta name="dcterms.date" content="2024-08-04">
 
 <title>Relations between tables – PatentsView Primer for CORI’s MDA</title>
 <style>
@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 2, 2024</p>
+      <p class="date">August 4, 2024</p>
     </div>
   </div>
   
@@ -323,13 +323,13 @@ Attaching package: 'dm'</code></pre>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simplify my list I went back and forth</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>kiss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_application.tsv.head"</span>, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">"g_location_disambiguated.tsv.head"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>i_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_location_disambiguated.tsv.head"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_patent.tsv.head"</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[kiss])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[i_data])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Sadly I need to first test what are the pk and if I can trust the data about that: meaning reading a bunch of big csv and not sample to build the schema.</p>
@@ -360,7 +360,10 @@ Attaching package: 'dm'</code></pre>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># no pk ..</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>g_location_dis <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_location_disambiguated.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>) </span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_location_dis)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># location ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>g_patent <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="fu">paste0</span>(path_to_tsv, <span class="st">"g_patent.tsv"</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">enum_pk_candidates</span>(g_patent)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># location ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>But also more targeted functions:</p>
@@ -369,16 +372,19 @@ Attaching package: 'dm'</code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) <span class="co"># a bit of strange behavior it return null on success?</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># test if we have value in g_assignee_dis$location_id not in g_location_dis </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis, location_id, g_location_dis, location_id)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis[g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,])</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  90823</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 8206092 </span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># small number does not have location </span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>( g_assignee_dis[<span class="sc">!</span>g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,], location_id, g_location_dis, location_id)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># return correct hence if we want use location as a fk for assignee we need to do that </span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tests if x is a subset of y</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis, location_id, g_location_dis, location_id)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis[g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  90823</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(g_assignee_dis)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 8206092 </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># small number does not have location </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis[<span class="sc">!</span>g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,], location_id, g_location_dis, location_id)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># return correct hence if we want use location as a fk for assignee we need to do that </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## patent id </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis[<span class="sc">!</span>g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,], patent_id, g_patent, patent_id)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_inventor_dis, patent_id, g_patent, patent_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Slowly adding them:</p>
@@ -387,8 +393,8 @@ Attaching package: 'dm'</code></pre>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pot_schema_pk_keys <span class="ot">&lt;-</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    pot_schema_no_keys <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_application.tsv.head, <span class="at">columns =</span> patent_id) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_location_disambiguated.tsv.head, <span class="at">columns =</span> location_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_location_disambiguated.tsv.head, <span class="at">columns =</span> location_id) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">dm_add_pk</span>(g_patent.tsv.head, <span class="at">columns =</span> patent_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="testing-fk-with-dm" class="level3">
@@ -420,7 +426,13 @@ Attaching package: 'dm'</code></pre>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>               g_location_disambiguated.tsv.head) <span class="sc">|&gt;</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_assignee_disambiguated.tsv.head,</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>              location_id,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>              g_location_disambiguated.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>              g_location_disambiguated.tsv.head) <span class="sc">|&gt;</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_assignee_disambiguated.tsv.head,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>              patent_id,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_inventor_disambiguated.tsv.head,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>              patent_id,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -430,12 +442,11 @@ Attaching package: 'dm'</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># kind of hacky </span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_all_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>bob <span class="ot">&lt;-</span> DiagrammeRsvg<span class="sc">::</span><span class="fu">export_svg</span>(test)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>htmltools<span class="sc">::</span><span class="fu">HTML</span>(bob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>schema <span class="ot">&lt;-</span> <span class="fu">dm_draw</span>(pot_schema_all_keys, <span class="at">view_type =</span> <span class="st">'all'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># kind of hacky </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>schema_html <span class="ot">&lt;-</span> DiagrammeRsvg<span class="sc">::</span><span class="fu">export_svg</span>(schema)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>htmltools<span class="sc">::</span><span class="fu">HTML</span>(schema_html )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
@@ -443,54 +454,35 @@ Attaching package: 'dm'</code></pre>
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %0 Pages: 1 -->
-<svg width="489pt" height="492pt" viewbox="0.00 0.00 489.00 492.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 488)">
+<svg width="489pt" height="500pt" viewbox="0.00 0.00 489.00 500.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 496)">
 <title>%0</title>
 <g id="a_graph0"><a title="Data Model">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-488 485,-488 485,4 -4,4"></polygon>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-496 485,-496 485,4 -4,4"></polygon>
 </a>
-</g>
-<!-- g_application.tsv.head -->
-<g id="g_application.tsv.head" class="node">
-<title>g_application.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="266,-463 266,-483 404,-483 404,-463 266,-463"></polygon>
-<text text-anchor="start" x="272.0147" y="-468.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_application.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-443 266,-463 404,-463 404,-443 266,-443"></polygon>
-<text text-anchor="start" x="268" y="-448.4" font-family="Times,serif" font-size="14.00" fill="#444444">application_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-423 266,-443 404,-443 404,-423 266,-423"></polygon>
-<text text-anchor="start" x="268" y="-429.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-403 266,-423 404,-423 404,-403 266,-403"></polygon>
-<text text-anchor="start" x="267.7391" y="-408.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_application_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-383 266,-403 404,-403 404,-383 266,-383"></polygon>
-<text text-anchor="start" x="268" y="-388.4" font-family="Times,serif" font-size="14.00" fill="#444444">filing_date</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-363 266,-383 404,-383 404,-363 266,-363"></polygon>
-<text text-anchor="start" x="268" y="-368.4" font-family="Times,serif" font-size="14.00" fill="#444444">series_code</text>
-<polygon fill="#ffffff" stroke="transparent" points="266,-343 266,-363 404,-363 404,-343 266,-343"></polygon>
-<text text-anchor="start" x="268" y="-348.4" font-family="Times,serif" font-size="14.00" fill="#444444">rule_47_flag</text>
-<polygon fill="none" stroke="#555555" points="265,-342 265,-484 405,-484 405,-342 265,-342"></polygon>
 </g>
 <!-- g_assignee_disambiguated.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head" class="node">
 <title>g_assignee_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="1,-411 1,-431 241,-431 241,-411 1,-411"></polygon>
-<text text-anchor="start" x="21.0806" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
+<polygon fill="#efebdd" stroke="transparent" points="1,-471 1,-491 241,-491 241,-471 1,-471"></polygon>
+<text text-anchor="start" x="21.0806" y="-476.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-451 1,-471 241,-471 241,-451 1,-451"></polygon>
+<text text-anchor="start" x="3" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-431 1,-451 241,-451 241,-431 1,-431"></polygon>
+<text text-anchor="start" x="3" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-411 1,-431 241,-431 241,-411 1,-411"></polygon>
+<text text-anchor="start" x="3" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
 <polygon fill="#ffffff" stroke="transparent" points="1,-391 1,-411 241,-411 241,-391 1,-391"></polygon>
-<text text-anchor="start" x="3" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<text text-anchor="start" x="2.8008" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
 <polygon fill="#ffffff" stroke="transparent" points="1,-371 1,-391 241,-391 241,-371 1,-371"></polygon>
-<text text-anchor="start" x="3" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
+<text text-anchor="start" x="3" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
 <polygon fill="#ffffff" stroke="transparent" points="1,-351 1,-371 241,-371 241,-351 1,-351"></polygon>
-<text text-anchor="start" x="3" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
+<text text-anchor="start" x="3" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
 <polygon fill="#ffffff" stroke="transparent" points="1,-331 1,-351 241,-351 241,-331 1,-331"></polygon>
-<text text-anchor="start" x="2.8008" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
+<text text-anchor="start" x="3" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
 <polygon fill="#ffffff" stroke="transparent" points="1,-311 1,-331 241,-331 241,-311 1,-311"></polygon>
-<text text-anchor="start" x="3" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-291 1,-311 241,-311 241,-291 1,-291"></polygon>
-<text text-anchor="start" x="3" y="-296.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-271 1,-291 241,-291 241,-271 1,-271"></polygon>
-<text text-anchor="start" x="3" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-251 1,-271 241,-271 241,-251 1,-251"></polygon>
-<text text-anchor="start" x="3" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="0,-250 0,-432 242,-432 242,-250 0,-250"></polygon>
+<text text-anchor="start" x="3" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="0,-310 0,-492 242,-492 242,-310 0,-310"></polygon>
 </g>
 <!-- g_location_disambiguated.tsv.head -->
 <g id="g_location_disambiguated.tsv.head" class="node">
@@ -520,35 +512,70 @@ Attaching package: 'dm'</code></pre>
 <!-- g_assignee_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head_1" class="edge">
 <title>g_assignee_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
-<path fill="none" stroke="#555555" d="M241,-261C280.4275,-261 244.2811,-187.084 269.5385,-173.2247"></path>
-<polygon fill="#555555" stroke="#555555" points="270.5033,-176.5956 279.5,-171 268.9775,-169.7639 270.5033,-176.5956"></polygon>
+<path fill="none" stroke="#555555" d="M241,-321C305.9291,-321 221.3659,-187.511 269.3604,-172.3892"></path>
+<polygon fill="#555555" stroke="#555555" points="270.0677,-175.825 279.5,-171 269.1174,-168.8898 270.0677,-175.825"></polygon>
+</g>
+<!-- g_patent.tsv.head -->
+<g id="g_patent.tsv.head" class="node">
+<title>g_patent.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="329.5,-411 329.5,-431 430.5,-431 430.5,-411 329.5,-411"></polygon>
+<text text-anchor="start" x="331.0126" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_patent.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-391 329.5,-411 430.5,-411 430.5,-391 329.5,-391"></polygon>
+<text text-anchor="start" x="331.5" y="-397.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-371 329.5,-391 430.5,-391 430.5,-371 329.5,-371"></polygon>
+<text text-anchor="start" x="331.5" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-351 329.5,-371 430.5,-371 430.5,-351 329.5,-351"></polygon>
+<text text-anchor="start" x="331.5" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_date</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-331 329.5,-351 430.5,-351 430.5,-331 329.5,-331"></polygon>
+<text text-anchor="start" x="331.5" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_title</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-311 329.5,-331 430.5,-331 430.5,-311 329.5,-311"></polygon>
+<text text-anchor="start" x="331.5" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">wipo_kind</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-291 329.5,-311 430.5,-311 430.5,-291 329.5,-291"></polygon>
+<text text-anchor="start" x="331.5" y="-296.4" font-family="Times,serif" font-size="14.00" fill="#444444">num_claims</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-271 329.5,-291 430.5,-291 430.5,-271 329.5,-271"></polygon>
+<text text-anchor="start" x="331.5" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#444444">withdrawn</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-251 329.5,-271 430.5,-271 430.5,-251 329.5,-251"></polygon>
+<text text-anchor="start" x="331.5" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">filename</text>
+<polygon fill="none" stroke="#555555" points="328,-250 328,-432 431,-432 431,-250 328,-250"></polygon>
+</g>
+<!-- g_assignee_disambiguated.tsv.head&#45;&gt;g_patent.tsv.head -->
+<g id="g_assignee_disambiguated.tsv.head_2" class="edge">
+<title>g_assignee_disambiguated.tsv.head:patent_id-&gt;g_patent.tsv.head:patent_id</title>
+<path fill="none" stroke="#555555" d="M241,-461C284.8082,-461 282.6714,-410.0088 319.3007,-402.0414"></path>
+<polygon fill="#555555" stroke="#555555" points="319.9073,-405.4978 329.5,-401 319.1962,-398.534 319.9073,-405.4978"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head" class="node">
 <title>g_inventor_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="20,-211 20,-231 223,-231 223,-211 20,-211"></polygon>
-<text text-anchor="start" x="21.9642" y="-216.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
+<polygon fill="#efebdd" stroke="transparent" points="20,-271 20,-291 223,-291 223,-271 20,-271"></polygon>
+<text text-anchor="start" x="21.9642" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-251 20,-271 223,-271 223,-251 20,-251"></polygon>
+<text text-anchor="start" x="22" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-231 20,-251 223,-251 223,-231 20,-231"></polygon>
+<text text-anchor="start" x="22" y="-236.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-211 20,-231 223,-231 223,-211 20,-211"></polygon>
+<text text-anchor="start" x="22" y="-216.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
 <polygon fill="#ffffff" stroke="transparent" points="20,-191 20,-211 223,-211 223,-191 20,-191"></polygon>
-<text text-anchor="start" x="22" y="-196.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<text text-anchor="start" x="22" y="-196.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
 <polygon fill="#ffffff" stroke="transparent" points="20,-171 20,-191 223,-191 223,-171 20,-171"></polygon>
-<text text-anchor="start" x="22" y="-176.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
+<text text-anchor="start" x="22" y="-176.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
 <polygon fill="#ffffff" stroke="transparent" points="20,-151 20,-171 223,-171 223,-151 20,-151"></polygon>
-<text text-anchor="start" x="22" y="-156.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
+<text text-anchor="start" x="22" y="-156.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
 <polygon fill="#ffffff" stroke="transparent" points="20,-131 20,-151 223,-151 223,-131 20,-131"></polygon>
-<text text-anchor="start" x="22" y="-136.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-111 20,-131 223,-131 223,-111 20,-111"></polygon>
-<text text-anchor="start" x="22" y="-116.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-91 20,-111 223,-111 223,-91 20,-91"></polygon>
-<text text-anchor="start" x="22" y="-96.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-71 20,-91 223,-91 223,-71 20,-71"></polygon>
-<text text-anchor="start" x="22" y="-76.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="18.5,-70 18.5,-232 223.5,-232 223.5,-70 18.5,-70"></polygon>
+<text text-anchor="start" x="22" y="-136.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="18.5,-130 18.5,-292 223.5,-292 223.5,-130 18.5,-130"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head_1" class="edge">
 <title>g_inventor_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
-<path fill="none" stroke="#555555" d="M223,-81C266.3546,-81 237.9253,-156.84 269.5029,-169.2825"></path>
-<polygon fill="#555555" stroke="#555555" points="269.0517,-172.7562 279.5,-171 270.237,-165.8573 269.0517,-172.7562"></polygon>
+<path fill="none" stroke="#555555" d="M223,-141C247.6554,-141 250.6571,-163.5604 269.5607,-169.553"></path>
+<polygon fill="#555555" stroke="#555555" points="269.1001,-173.0228 279.5,-171 270.1086,-166.0958 269.1001,-173.0228"></polygon>
+</g>
+<!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_patent.tsv.head -->
+<g id="g_inventor_disambiguated.tsv.head_2" class="edge">
+<title>g_inventor_disambiguated.tsv.head:patent_id-&gt;g_patent.tsv.head:patent_id</title>
+<path fill="none" stroke="#555555" d="M223,-261C297.5149,-261 255.7134,-388.1826 319.3236,-400.106"></path>
+<polygon fill="#555555" stroke="#555555" points="319.232,-403.6113 329.5,-401 319.8447,-396.6382 319.232,-403.6113"></polygon>
 </g>
 </g>
 </svg>
