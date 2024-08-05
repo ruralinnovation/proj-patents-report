@@ -6,7 +6,7 @@
 #'
 #' @return a list of data frame
 #' @examplesIf interactive()
-#' list_samples <- read_sample("data/data_sample/") 
+#' list_samples <- read_sample("data/data_sample/")
 #' list2env(list_samples)
 
 read_sample <- function(path_dir) {
@@ -20,8 +20,6 @@ read_sample <- function(path_dir) {
 }
 
 #' Wrapper around fread for this use case
-#'
-#' Take a dir path and read all tsv in it and store in name list
 #'
 #' @param string take a file path
 #'

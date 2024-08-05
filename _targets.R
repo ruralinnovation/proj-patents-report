@@ -27,6 +27,7 @@ list(
   tar_target(patent_raw, fread_tsv(patent_file)),
   tar_target(assignee_raw, fread_tsv(assignee_file)),
   tar_target(inventor_raw, fread_tsv(inventor_file)),
-  tar_target(location_raw, fread_tsv(location_file))
+  tar_target(location_raw, fread_tsv(location_file)),
+  tar_target(location_us, get_me_us_location(location_raw))
 )
 

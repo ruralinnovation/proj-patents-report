@@ -119,7 +119,6 @@ pot_schema_pk_keys <-
 
 Adding Foreign keys:
 
-
 ```{r}
 #| label: add foreign key
 pot_schema_all_keys <- 
@@ -185,26 +184,5 @@ head(g_location_dis)
 # it seems we have some NA in locvation, prob 
 # case outside of US 
 
-dim(g_location_dis)
-
-get_me_us_location <- function(dat) {
-  slim_location <- dat[dat$disambig_country == "US", c("location_id", "state_fips", "county_fips")]
-  slim_location <- slim_location[!is.na(slim_location$county_fips),]
-  slim_location$geoid_co <- paste0(sprintf("%02d", slim_location$state_fips),
-                                   sprintf("%03d", slim_location$county_fips)) 
-  return(slim_location)
-}
-
- 
-# still has NA (11), sometimes we know the states but sometimes not even
-
-
-
-test <- unique(slim_location$state_fips)
-
-sprintf("%02d", test)
-sprintf("%03d")
-
-
-# check the disambig_county US seems googledrive
+dim(g_location_dis) 
 ```

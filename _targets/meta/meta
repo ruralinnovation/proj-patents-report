@@ -2,10 +2,12 @@ name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iterat
 assignee_file|stem|0e8c91f4371f75f9|7ad0a1ffc5f2b958|ef46db3751d8e999|-130791275|data/data_raw/unziped/g_assignee_disambiguated.tsv|t19927.9502546296s|ba675e68ac7b0c72|1037584231|file|local|vector|||0||
 assignee_raw|stem|5820a3049cb2f504|9e411b616c5a1a2e|bbadc715bced8973|-1776892158||t19940.593150627s|ccaf4ffa67d160a8|280998712|rds|local|vector|||10.949||
 fread_tsv|function|1d77f77048940108|||||||||||||||
+get_me_us_location|function|e207dff635c1e030|||||||||||||||
 inventor_file|stem|63a61103df459dca|b6ad8b900be64dff|ef46db3751d8e999|1314243806|data/data_raw/unziped/g_inventor_disambiguated.tsv|t19928.021412037s|f202a5e849aca96f|2132722674|file|local|vector|||0.003||
 inventor_raw|stem|eabec1ed013fca1d|9a3244cb43d04ce0|ca88d6fd65a20a8c|-1009114140||t19940.5921999506s|6071822348fe45f9|606647424|rds|local|vector|||33.143||
 location_file|stem|0e68765a26a0b934|279b65377eb58491|ef46db3751d8e999|994813754|data/data_raw/unziped/g_location_disambiguated.tsv|t19928.039537037s|4d703e2d7ab3c16d|9038970|file|local|vector|||0||
 location_raw|stem|bfa4bf890d5ca49e|7388bca05d11e4a9|82cdd8733e4380b5|1531131639||t19940.5931594647s|290c570637636cfc|2725276|rds|local|vector|||0.469||
+location_us|stem|1b8c415d0a02bbeb|5b85f39473c93339|fb2fc96dd59ce585|-997291703||t19940.6378589945s|6e04a15d109bc097|245658|rds|local|vector|||0.009||
 patent_file|stem|532372ed9da294ee|0e528ccd92587b02|ef46db3751d8e999|361076240|data/data_raw/unziped/g_patent.tsv|t19928.0731481481s|248ff3e5b8103bcb|1055731960|file|local|vector|||0.004||
 patent_raw|stem|dfd919179866dcbb|4c8facecedead82c|27270e891cb3db75|-730994296||t19940.5926993993s|c91f727102ef217f|202280347|rds|local|vector|||16.519||
 read_sample|function|78f52af04ed621e3|||||||||||||||
