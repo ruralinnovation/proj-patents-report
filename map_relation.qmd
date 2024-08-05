@@ -14,6 +14,8 @@ reference-location: margin
 library(dm, warn.conflicts = FALSE)
 library(htmltools)
 library(DiagrammeRsvg)
+
+source("R/utils.R")
 ```
 
 # EDA: Exploratory Data Analysis
@@ -49,19 +51,7 @@ rm -rf data/data_raw/unziped
 
 ```{r}
 #| label: read all tsv
-read_sample <- function(path_dir){
-    list_tsv <- paste0(path_dir,
-                    list.files(path_dir, 
-                                pattern = ".tsv"))
-
-    list_samples <- sapply(list_tsv, read.csv, sep ="\t") 
-    names(list_samples) <- basename(names(list_samples))
-    return(list_samples)
-}
-
 list_samples <- read_sample("data/data_sample/") 
-
-# list2env(list_samples, .GlobalEnv)
 names(list_samples)
 ``` 
 
@@ -93,7 +83,7 @@ I am first trying to get:
 - nb of patents → using assignee for localisation
 
 
-dm offer high level function taht return tibble with result for the all table:
+dm offer high level functions that return tibble with result for all tables:
 
 ```{r}
 #| eval: false
@@ -190,9 +180,55 @@ htmltools::HTML(schema_html )
 
  We will probably do it in at least to n steps:
 
- - Getting counties, yes right now we do not know if we are missing some counties and we are still unsure what vintage of census patentsview is using.
+ - Getting counties, right now we do not know if we are missing some counties and we are still unsure what vintage of census patentsview is using.
 
  - linking patent to assignee then link to location
 
- - linking patent to inventore then link to location 
+ - linking patent to inventor then link to location 
 
+```{r}
+#| eval: false
+# some sanity check: 
+dim(g_patent)
+dim(g_location_dis)
+
+length(unique(g_assignee_dis$disambig_assignee_organization))
+
+slim_assignee <- g_assignee_dis[!is.na(g_assignee_dis$location_id), c("patent_id", "assignee_id", "location_id", "disambig_assignee_organization")]
+dim(slim_assignee)
+
+dim(slim_assignee)
+
+patent_w_assignee <- merge(g_patent, slim_assignee, 
+                           by.x = "patent_id", by.y = "patent_id", 
+                           all.x  = TRUE, all.y = TRUE) 
+dim(patent_w_assignee)    
+
+head(g_location_dis)
+
+# it seems we have some NA in locvation, prob 
+# case outside of US 
+
+dim(g_location_dis)
+
+get_me_us_location <- function(dat) {
+  slim_location <- dat[dat$disambig_country == "US", c("location_id", "state_fips", "county_fips")]
+  slim_location <- slim_location[!is.na(slim_location$county_fips),]
+  slim_location$geoid_co <- paste0(sprintf("%02d", slim_location$state_fips),
+                                   sprintf("%03d", slim_location$county_fips)) 
+  return(slim_location)
+}
+
+ 
+# still has NA (11), sometimes we know the states but sometimes not even
+
+
+
+test <- unique(slim_location$state_fips)
+
+sprintf("%02d", test)
+sprintf("%03d")
+
+
+# check the disambig_county US seems googledrive
+```
