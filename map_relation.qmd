@@ -157,32 +157,7 @@ htmltools::HTML(schema_html )
 
  - Getting counties, right now we do not know if we are missing some counties and we are still unsure what vintage of census patentsview is using.
 
- - linking patent to assignee then link to location
+ - Linking patent to assignee then link to location
 
- - linking patent to inventor then link to location 
+ - Linking patent to inventor then link to location 
 
-```{r}
-#| eval: false
-# some sanity check: 
-dim(g_patent)
-dim(g_location_dis)
-
-length(unique(g_assignee_dis$disambig_assignee_organization))
-
-slim_assignee <- g_assignee_dis[!is.na(g_assignee_dis$location_id), c("patent_id", "assignee_id", "location_id", "disambig_assignee_organization")]
-dim(slim_assignee)
-
-dim(slim_assignee)
-
-patent_w_assignee <- merge(g_patent, slim_assignee, 
-                           by.x = "patent_id", by.y = "patent_id", 
-                           all.x  = TRUE, all.y = TRUE) 
-dim(patent_w_assignee)    
-
-head(g_location_dis)
-
-# it seems we have some NA in locvation, prob 
-# case outside of US 
-
-dim(g_location_dis) 
-```

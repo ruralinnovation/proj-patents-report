@@ -26,5 +26,5 @@ read_sample <- function(path_dir) {
 #' @return a data frame
 
 fread_tsv <- function(f_path, ...) {
-  data.table::fread(f_path, sep = "\t")
+  data.table::fread(f_path, sep = "\t", ...)
 }
