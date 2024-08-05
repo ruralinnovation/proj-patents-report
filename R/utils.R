@@ -26,6 +26,7 @@ read_sample <- function(path_dir) {
 #' @param string take a file path
 #'
 #' @return a data frame
-#' 
 
-
+fread_tsv <- function(f_path, ...) {
+  data.table::fread(f_path, sep = "\t")
+}

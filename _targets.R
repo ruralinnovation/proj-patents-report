@@ -9,19 +9,24 @@ tar_source()
 
 list(
   tar_target(
-             name = patent_file,
+             patent_file,
              "data/data_raw/unziped/g_patent.tsv",
              format = "file"),
   tar_target(
-             name = assignee_file,
+             assignee_file,
              "data/data_raw/unziped/g_assignee_disambiguated.tsv",
              format = "file"),
   tar_target(
-             name = inventor_file,
+             inventor_file,
              "data/data_raw/unziped/g_inventor_disambiguated.tsv",
              format = "file"),
   tar_target(
-             name = location_file,
+             location_file,
              "data/data_raw/unziped/g_location_disambiguated.tsv",
-             format = "file")
+             format = "file"),
+  tar_target(patent_raw, fread_tsv(patent_file)),
+  tar_target(assignee_raw, fread_tsv(assignee_file)),
+  tar_target(inventor_raw, fread_tsv(inventor_file)),
+  tar_target(location_raw, fread_tsv(location_file))
 )
+

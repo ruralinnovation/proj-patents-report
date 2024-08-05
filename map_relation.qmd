@@ -85,32 +85,8 @@ I am first trying to get:
 
 dm offer high level functions that return tibble with result for all tables:
 
-```{r}
-#| eval: false
-path_to_tsv <- "data/data_raw/unziped/"
-#  
-g_application <- data.table::fread(paste0(path_to_tsv, "g_application.tsv"), sep = "\t")
-enum_pk_candidates(g_application)
-
-g_assignee_dis <- data.table::fread(paste0(path_to_tsv,
-                                           "g_assignee_disambiguated.tsv"), 
-                                    sep ="\t")
-assignee_sum <- enum_pk_candidates(g_assignee_dis)
-# no pk but should have patent_id / assignee_id and location id has fk
-g_inventor_dis <- data.table::fread(paste0(path_to_tsv, "g_inventor_disambiguated.tsv"), sep = "\t")
-enum_pk_candidates(g_inventor_dis)
-# no pk ..
-g_location_dis <- data.table::fread(paste0(path_to_tsv, "g_location_disambiguated.tsv"), sep = "\t") 
-enum_pk_candidates(g_location_dis)
-
-g_patent <- data.table::fread(paste0(path_to_tsv, "g_patent.tsv"), sep = "\t")
-enum_pk_candidates(g_patent)
-# location ID
-
-```
-
-
-But also more targeted functions:
+- `enum_pk_candidates(a_table)`
+- and more targets function:
 
 ```{r}
 #| eval: false
