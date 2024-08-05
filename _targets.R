@@ -2,19 +2,26 @@
 library(targets)
 
 tar_option_set(
-  packages = c("tibble")
+  packages = c("tibble", "data.table")
 )
 
 tar_source()
-# tar_source("other_functions.R") # Source other scripts as needed.
 
-# Replace the target list below with your own:
 list(
   tar_target(
-    name = data,
-    command = tibble(x = rnorm(100), y = rnorm(100))),
+             name = patent_file,
+             "data/data_raw/unziped/g_patent.tsv",
+             format = "file"),
   tar_target(
-    name = model,
-    command = coefficients(lm(y ~ x, data = data))
-  )
+             name = assignee_file,
+             "data/data_raw/unziped/g_assignee_disambiguated.tsv",
+             format = "file"),
+  tar_target(
+             name = inventor_file,
+             "data/data_raw/unziped/g_inventor_disambiguated.tsv",
+             format = "file"),
+  tar_target(
+             name = location_file,
+             "data/data_raw/unziped/g_location_disambiguated.tsv",
+             format = "file")
 )

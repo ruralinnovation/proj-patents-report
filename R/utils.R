@@ -1,8 +1,8 @@
-#' Your tipycal read into list function
+#' Your classic read into list function
 #'
 #' Take a dir path and read all tsv in it and store in name list
 #'
-#' @param string take a file path
+#' @param string take a directory path
 #'
 #' @return a list of data frame
 #' @examplesIf interactive()
@@ -18,3 +18,14 @@ read_sample <- function(path_dir) {
   names(list_samples) <- basename(names(list_samples))
   return(list_samples)
 }
+
+#' Wrapper around fread for this use case
+#'
+#' Take a dir path and read all tsv in it and store in name list
+#'
+#' @param string take a file path
+#'
+#' @return a data frame
+#' 
+
+

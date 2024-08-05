@@ -1,0 +1,6 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+assignee_file|stem|0e8c91f4371f75f9|7ad0a1ffc5f2b958|ef46db3751d8e999|-130791275|data/data_raw/unziped/g_assignee_disambiguated.tsv|t19927.9502546296s|ba675e68ac7b0c72|1037584231|file|local|vector|||0||
+inventor_file|stem|63a61103df459dca|b6ad8b900be64dff|ef46db3751d8e999|1314243806|data/data_raw/unziped/g_inventor_disambiguated.tsv|t19928.021412037s|f202a5e849aca96f|2132722674|file|local|vector|||0.003||
+location_file|stem|0e68765a26a0b934|279b65377eb58491|ef46db3751d8e999|994813754|data/data_raw/unziped/g_location_disambiguated.tsv|t19928.039537037s|4d703e2d7ab3c16d|9038970|file|local|vector|||0||
+patent_file|stem|532372ed9da294ee|0e528ccd92587b02|ef46db3751d8e999|361076240|data/data_raw/unziped/g_patent.tsv|t19928.0731481481s|248ff3e5b8103bcb|1055731960|file|local|vector|||0.004||
+read_sample|function|78f52af04ed621e3|||||||||||||||
