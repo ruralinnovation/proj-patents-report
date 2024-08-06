@@ -48,3 +48,23 @@ table_with_options <- function(x) {
                                               buttons = c("csv", "excel"),
                                               text = "Download"))))
 }
+
+#' Quick and dirty way to download stuff 
+#'
+#' Put it in an opinionated place (should be data/raw)
+#'
+#' @param string name of a file
+#' @examplesIf interactive()
+#' dl_me_raw_stuff("g_location_disambiguated.tsv")
+
+dl_me_raw_stuff <- function(file, path = "data/data_raw/unzipped") {
+  url_path <- paste0("https://s3.amazonaws.com/data.patentsview.org/download/",
+                     file,
+                     ".zip")
+  my_dest <- paste0(path, file)
+  file <- basename(url_path)
+  download.file(url_path,
+                destfile = my_dest)
+  message(sprintf("%s was downloaded", file))
+  unzip(my_dest, exdir = path)
+}
