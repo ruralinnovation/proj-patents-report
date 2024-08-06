@@ -4,7 +4,7 @@
     "href": "pipeline.html",
     "title": "Result of pipelines",
     "section": "",
-    "text": "Code\nlibrary(targets)\ntar_glimpse()",
+    "text": "Code\nlibrary(targets)\nsource(\"R/utils.R\")",
     "crumbs": [
       "Home",
       "Result of pipelines"
@@ -14,8 +14,8 @@
     "objectID": "pipeline.html#pipeline-schema",
     "href": "pipeline.html#pipeline-schema",
     "title": "Result of pipelines",
-    "section": "",
-    "text": "Code\nlibrary(targets)\ntar_glimpse()",
+    "section": "Pipeline schema:",
+    "text": "Pipeline schema:\n\n\nCode\ntar_glimpse()",
     "crumbs": [
       "Home",
       "Result of pipelines"
@@ -25,8 +25,8 @@
     "objectID": "pipeline.html#county-data",
     "href": "pipeline.html#county-data",
     "title": "Result of pipelines",
-    "section": "County data:",
-    "text": "County data:\n\n\nCode\nsource(\"R/utils.R\")\n\ncnty &lt;- read.csv(\"data/county_patent.csv\")\n\ntable_with_options(cnty)",
+    "section": "County data",
+    "text": "County data\n\nFocus on assignee for location:\n\n\nCode\ncnty &lt;- read.csv(\"data/county_patent.csv\")\ntable_with_options(cnty)\n\n\n\n\n\n\n\n\nUsing location of inventor\n\n\nCode\ncnty &lt;- read.csv(\"data/county_patent.csv\")\ntable_with_options(cnty)",
     "crumbs": [
       "Home",
       "Result of pipelines"
