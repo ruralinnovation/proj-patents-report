@@ -40,6 +40,6 @@ table_with_options(cnty)
 
 ```{r}
 #| label: table patent inv
-cnty <- read.csv("data/county_patent.csv")
+cnty <- read.csv("data/county_inv.csv")
 table_with_options(cnty)
 ```

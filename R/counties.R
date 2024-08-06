@@ -26,7 +26,7 @@ get_me_us_location <- function(dat) {
 #' @return a data frame
 
 
-get_me_patent_assignee_loc <- function(patent, assignee, location) {
+get_me_patent_assignee_loc <- function(patent, assignee, location, inventor) {
 
   patent$year <- format(as.Date(patent$patent_date, format = "%Y/%m/%d"), "%Y")
 
@@ -37,9 +37,9 @@ get_me_patent_assignee_loc <- function(patent, assignee, location) {
   patent_w_assignee <- merge(patent, slim_assignee,
                              by.x = "patent_id", by.y = "patent_id",
                              all.x  = TRUE, all.y = TRUE)
-  
-  # slim_inventor <- inventor[, c("patent_id", "inventor_id")]
-  
+
+  slim_inventor <- inventor[, c("patent_id", "inventor_id")]
+
   # a patent can have multiple assignees
   # in that case I will count them more than once in location
 
@@ -48,14 +48,14 @@ get_me_patent_assignee_loc <- function(patent, assignee, location) {
                                       by.x = "location_id",
                                       by.y = "location_id",
                                       all.x  = TRUE, all.y = TRUE)
-  
-  # full_table <- merge(patent_w_assignee_location, slim_inventor,
-  #                     by.x = "patent_id",
-  #                     by.y = "patent_id",
-  #                     all.x  = TRUE, all.y = TRUE)
+
+  full_table <- merge(patent_w_assignee_location, slim_inventor,
+                      by.x = "patent_id",
+                      by.y = "patent_id",
+                      all.x  = TRUE, all.y = TRUE)
 
   # obv you have assignee with multiple location
-  return(patent_w_assignee_location)
+  return(full_table)
 }
 
 #' get inventor by county
@@ -82,7 +82,6 @@ get_me_inv_cty <- function(inventor, location) {
                                  cnt_inv = dplyr::n(),
                                  .by = geoid_co)
   return(summarized)
-
 }
 
 #' Summarized by county and year number of patents
@@ -97,7 +96,8 @@ get_me_county_year_patent <- function(dat) {
   dat <- dat[!is.na(dat$geoid_co), ]
 
   summarized <- dplyr::summarize(dat,
-                                 cnt_patent = dplyr::n(),
+                                 cnt_patent = length(unique(patent_id)),
+                                 cnt_inventor = length(unique(inventor_id)),
                                  .by = c(geoid_co, year))
   return(summarized)
 }
