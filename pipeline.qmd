@@ -1,0 +1,16 @@
+---
+title: "Result of pipelines"
+date: last-modified
+format: 
+  html:
+    code-fold: true
+engine: knitr
+reference-location: margin
+---
+
+
+```{r}
+library(targets)
+tar_visnetwork()
+```
+

@@ -92,9 +92,9 @@ get_me_assignee_cty <- function(assignee, location) {
                                 "disambig_assignee_organization")]
 
   assignee_location <- merge(slim_assignee, location,
-                        by.x = "location_id",
-                        by.y = "location_id",
-                        all.x  = TRUE, all.y = TRUE)
+                             by.x = "location_id",
+                             by.y = "location_id",
+                             all.x  = TRUE, all.y = TRUE)
 
   dat <- assignee_location[!is.na(assignee_location$geoid_co), ]
 
@@ -133,8 +133,8 @@ get_me_county_year_patent <- function(dat) {
 
 get_me_final_cty <- function(cnty_assignee, cnty_inv, cnty_patent) {
   dat <- merge(cnty_assignee, cnty_inv,
-        by.x = "geoid_co", by.y = "geoid_co",
-        all.x = TRUE, all.y = TRUE)
+               by.x = "geoid_co", by.y = "geoid_co",
+               all.x = TRUE, all.y = TRUE)
 
   bill <- merge(cnty_patent, dat,
                 by.x = "geoid_co", by.y = "geoid_co",

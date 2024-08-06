@@ -12,6 +12,7 @@ website:
     style: "docked"
     search: true
     contents:
+      - pipeline.qmd
       - map_relation.qmd
       - glossary.qmd 
 

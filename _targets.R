@@ -1,8 +1,10 @@
 
 library(targets)
+library(tarchetypes)
 
 tar_option_set(
-  packages = c("tibble", "data.table", "dplyr")
+  packages = c("tibble", "data.table", "dplyr"),
+  seed = 42
 )
 
 tar_source()
@@ -38,5 +40,6 @@ list(
   tar_target(cnty_inv, get_me_inv_cty(inventor_raw, location_us)),
   tar_target(full_cty, get_me_final_cty(cnty_assignee,
                                         cnty_inv,
-                                        cnty_patent))
+                                        cnty_patent)),
+  tar_quarto(website, quiet = FALSE)
 )

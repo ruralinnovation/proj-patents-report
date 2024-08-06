@@ -33,6 +33,9 @@ jobs:
             any::htmltools
             any::DiagrammeR
             any::DiagrammeRsvg
+            any::targets
+            any::tarchetypes
+            any::visNetwork
   
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
