@@ -41,7 +41,7 @@ list(
   tar_target(write_county, write.csv(cnty_patent,
                                      "data/county_patent.csv",
                                      row.names = FALSE)),
-    tar_target(write_inv, write.csv(cnty_inv,
-                                     "data/county_patent.csv",
-                                     row.names = FALSE))
+  tar_target(write_inv, write.csv(cnty_inv,
+                                  "data/county_inv.csv",
+                                  row.names = FALSE))
 )

@@ -37,13 +37,22 @@ get_me_patent_assignee_loc <- function(patent, assignee, location) {
   patent_w_assignee <- merge(patent, slim_assignee,
                              by.x = "patent_id", by.y = "patent_id",
                              all.x  = TRUE, all.y = TRUE)
+  
+  # slim_inventor <- inventor[, c("patent_id", "inventor_id")]
+  
   # a patent can have multiple assignees
   # in that case I will count them more than once in location
+
 
   patent_w_assignee_location <- merge(patent_w_assignee, location,
                                       by.x = "location_id",
                                       by.y = "location_id",
                                       all.x  = TRUE, all.y = TRUE)
+  
+  # full_table <- merge(patent_w_assignee_location, slim_inventor,
+  #                     by.x = "patent_id",
+  #                     by.y = "patent_id",
+  #                     all.x  = TRUE, all.y = TRUE)
 
   # obv you have assignee with multiple location
   return(patent_w_assignee_location)
