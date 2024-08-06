@@ -9,8 +9,24 @@ reference-location: margin
 ---
 
 
+## Pipeline schema:
+
 ```{r}
+#| label: get a glimpse of pipeline
 library(targets)
-tar_visnetwork()
+tar_glimpse()
 ```
 
+
+## County data: 
+
+
+```{r}
+#| label: table patent county
+
+source("R/utils.R")
+
+cnty <- read.csv("data/county_patent.csv")
+
+table_with_options(cnty)
+```

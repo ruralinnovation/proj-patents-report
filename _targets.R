@@ -41,5 +41,6 @@ list(
   tar_target(full_cty, get_me_final_cty(cnty_assignee,
                                         cnty_inv,
                                         cnty_patent)),
-  tar_quarto(website, quiet = FALSE)
+  tar_quarto(website, quiet = FALSE),
+  tar_target(write_county, write.csv(cnty_patent, "data/county_patent.csv"))
 )
