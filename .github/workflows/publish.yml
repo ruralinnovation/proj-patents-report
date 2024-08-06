@@ -36,6 +36,7 @@ jobs:
             any::targets
             any::tarchetypes
             any::visNetwork
+            any::quarto
   
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
