@@ -4,7 +4,29 @@
     "href": "pipeline.html",
     "title": "Result of pipelines",
     "section": "",
-    "text": "Code\nlibrary(targets)\ntar_visnetwork()",
+    "text": "Code\nlibrary(targets)\ntar_glimpse()",
+    "crumbs": [
+      "Home",
+      "Result of pipelines"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#pipeline-schema",
+    "href": "pipeline.html#pipeline-schema",
+    "title": "Result of pipelines",
+    "section": "",
+    "text": "Code\nlibrary(targets)\ntar_glimpse()",
+    "crumbs": [
+      "Home",
+      "Result of pipelines"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#county-data",
+    "href": "pipeline.html#county-data",
+    "title": "Result of pipelines",
+    "section": "County data:",
+    "text": "County data:\n\n\nCode\nsource(\"R/utils.R\")\n\ncnty &lt;- read.csv(\"data/county_patent.csv\")\n\ntable_with_options(cnty)",
     "crumbs": [
       "Home",
       "Result of pipelines"
