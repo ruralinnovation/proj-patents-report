@@ -29,15 +29,22 @@ fread_tsv <- function(f_path, ...) {
   data.table::fread(f_path, sep = "\t", ...)
 }
 
+#' My opinionated version of DT with all options that I like
+#'
+#' Take a dir path and read all tsv in it and store in name list
+#'
+#' @param string a table to render
+#'
 
-table_with_options <- function(x){DT::datatable(x, rownames = FALSE,
-              extensions = 'Buttons', 
+table_with_options <- function(x) {
+  DT::datatable(x,
+               rownames = FALSE,
+                extensions = "Buttons",
                 options = list(
-                          dom = 'Blfrtip',
-                          buttons = list('copy', 'print', list(
-                            extend = 'collection',
-                            buttons = c('csv', 'excel'),
-                            text = 'Download')
-                                    )
-                          )
-            )}
+                          dom = "Blfrtip",
+                          buttons = list("copy",
+                                         "print",
+                                         list(extend = "collection",
+                                              buttons = c("csv", "excel"),
+                                              text = "Download"))))
+}
