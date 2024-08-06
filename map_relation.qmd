@@ -26,7 +26,11 @@ Here we have room for improvement if we want to automate it.
 I make a quick function:
 
 ```{r}
+#| label: dl data
+#| eval: false 
 source("R/utils.R")
+
+system("mkdir -p data/data_raw/unziped")
 
 tsv <- c("g_assignee_disambiguated.tsv",
             "g_inventor_disambiguated.tsv", 

@@ -1,11 +1,12 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|39dfe9276065d8d8|||||||||||||||
+.Random.seed|object|e5f9728082f21e33|||||||||||||||
 assignee_file|stem|62fc812b42f8aa00|cf95c24d2ea5315f|2c530c1562a7fbd1|2082788692|data/data_raw/unziped/g_assignee_disambiguated.tsv|t19927.9502546296s|19181e6d5ae6bb8c|1037584231|file|local|vector|||0||
 assignee_raw|stem|17eea75cde4ed1c1|40f15c41a175cdbd|79a369d88be37457|976176214||t19941.045537341s|408b0c8a8799d884|280998712|rds|local|vector|||10.329||
 cnty_assignee|stem|797390a9425a19e4|b6406f748a6fff82|8007f18383e9d0f0|1368433758||t19941.0458222648s|ca7c7ed05af2cbf5|14207|rds|local|vector|||6.185||
 cnty_inv|stem|4c27e6c7e8110316|f3c7931a68d61661|c1f0200f11eb466d|68060051||t19941.0457506183s|cfe64465343581d3|15597|rds|local|vector|||17.966||
 cnty_patent|stem|f67326cd11ba85f8|efabdcd6c4181dbb|c8e8879786e03944|-158789069||t19941.663275543s|253e4ac275915e43|292909|rds|local|vector|||11.167||
 dat|object|6b697b96575c4d4b|||||||||||||||
+dl_me_raw_stuff|function|bbeea75760693d15|||||||||||||||
 fread_tsv|function|7ef75a74c1bb5788|||||||||||||||
 full_cty|stem|32f4e388e4d78ce8|0115ca2c932f05bf|52506bb434d16128|95573443||t19941.0465718894s|e7a89f28b1fa98e6|186529|rds|local|vector|||0.366||
 get_me_assignee_cty|function|7de70bbadc788709|||||||||||||||
@@ -30,6 +31,6 @@ patent_file|stem|6382176349c156c2|616c7aff6ee4d76d|2c530c1562a7fbd1|937146725|da
 patent_raw|stem|59f0629f2402835a|6a600ad9163aa470|81c1fde921865d1e|-1365469139||t19941.045115477s|bd06401e3a9409f8|202280349|rds|local|vector|||14.055||
 read_sample|function|50fa3240879e5a1a|||||||||||||||
 table_with_options|function|8aaa3df01d5209e3|||||||||||||||
-website|stem|ff1f2448d807513c|6e03b1f5959c23f3|2c530c1562a7fbd1|442635132|_site*about.qmd*glossary.qmd*index.qmd*map_relation.qmd*pipeline.qmd*_quarto.yml*styles.css|t19941.6338515788s|80916f845f4f0f9b|7160|file|local|vector|||6.782||
+website|stem|0e581931e72e271d|6e03b1f5959c23f3|2c530c1562a7fbd1|442635132|_site*about.qmd*glossary.qmd*index.qmd*map_relation.qmd*pipeline.qmd*_quarto.yml*styles.css|t19941.7792543387s|a4beceefb90846da|4402805|file|local|vector|||107.492||
 write_county|stem|7f64d27a16de8c73|8a62caed95174ccb|69137e7297d1e29c|990485011||t19941.6632760438s|d21be8cf0dd771ce|44|rds|local|vector|||0.038||
 write_inv|stem|7f64d27a16de8c73|da77d4f8f4334a17|d153130cf2242f34|457229538||t19941.5524929427s|d21be8cf0dd771ce|44|rds|local|vector|||0.002||
