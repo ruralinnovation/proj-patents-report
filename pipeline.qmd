@@ -8,25 +8,38 @@ engine: knitr
 reference-location: margin
 ---
 
+```{r}
+#| label: loading stuff 
+library(targets)
+source("R/utils.R")
+```
+
 
 ## Pipeline schema:
 
 ```{r}
 #| label: get a glimpse of pipeline
-library(targets)
 tar_glimpse()
 ```
 
 
-## County data: 
+## County data 
+
+
+### Focus on assignee for location: 
 
 
 ```{r}
 #| label: table patent county
-
-source("R/utils.R")
-
 cnty <- read.csv("data/county_patent.csv")
+table_with_options(cnty)
+```
 
+
+### Using location of inventor
+
+```{r}
+#| label: table patent inv
+cnty <- read.csv("data/county_patent.csv")
 table_with_options(cnty)
 ```

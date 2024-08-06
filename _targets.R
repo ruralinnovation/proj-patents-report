@@ -36,11 +36,12 @@ list(
                                         assignee_raw,
                                         location_us)),
   tar_target(cnty_patent, get_me_county_year_patent(patent_assignee_location)),
-  tar_target(cnty_assignee, get_me_assignee_cty(assignee_raw, location_us)),
   tar_target(cnty_inv, get_me_inv_cty(inventor_raw, location_us)),
-  tar_target(full_cty, get_me_final_cty(cnty_assignee,
-                                        cnty_inv,
-                                        cnty_patent)),
   tar_quarto(website, quiet = FALSE),
-  tar_target(write_county, write.csv(cnty_patent, "data/county_patent.csv"))
+  tar_target(write_county, write.csv(cnty_patent,
+                                     "data/county_patent.csv",
+                                     row.names = FALSE)),
+    tar_target(write_inv, write.csv(cnty_inv,
+                                     "data/county_patent.csv",
+                                     row.names = FALSE))
 )

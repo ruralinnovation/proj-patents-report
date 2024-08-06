@@ -76,34 +76,6 @@ get_me_inv_cty <- function(inventor, location) {
 
 }
 
-#' get assignee by county
-#'
-#' Location was not in the US and even in the US we have some NA locations
-#'
-#' @param data.frame assignee data
-#' @param data.frame location data
-#'
-#' @return a data frame
-
-get_me_assignee_cty <- function(assignee, location) {
-
-  slim_assignee <- assignee[, c("patent_id", "assignee_id",
-                                "location_id",
-                                "disambig_assignee_organization")]
-
-  assignee_location <- merge(slim_assignee, location,
-                             by.x = "location_id",
-                             by.y = "location_id",
-                             all.x  = TRUE, all.y = TRUE)
-
-  dat <- assignee_location[!is.na(assignee_location$geoid_co), ]
-
-  summarized <- dplyr::summarize(dat,
-                                 cnt_assignee = dplyr::n(),
-                                 .by = geoid_co)
-  return(summarized)
-}
-
 #' Summarized by county and year number of patents
 #'
 #' kept when year is NA for overal summary
@@ -119,25 +91,4 @@ get_me_county_year_patent <- function(dat) {
                                  cnt_patent = dplyr::n(),
                                  .by = c(geoid_co, year))
   return(summarized)
-}
-
-#' Return final table by county/year
-#'
-#' inventor and assignee are replicated for year
-#'
-#' @param data.frame county assignee data
-#' @param data.frame county inventor data
-#' @param data.frame county/year patent data
-#'
-#' @return a data frame
-
-get_me_final_cty <- function(cnty_assignee, cnty_inv, cnty_patent) {
-  dat <- merge(cnty_assignee, cnty_inv,
-               by.x = "geoid_co", by.y = "geoid_co",
-               all.x = TRUE, all.y = TRUE)
-
-  bill <- merge(cnty_patent, dat,
-                by.x = "geoid_co", by.y = "geoid_co",
-                all.x = TRUE, all.y = TRUE)
-  return(bill)
 }

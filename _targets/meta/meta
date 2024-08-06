@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|e34bfa98b0f305aa|||||||||||||||
+.Random.seed|object|3ea1e029c3278aa7|||||||||||||||
 assignee_file|stem|62fc812b42f8aa00|cf95c24d2ea5315f|2c530c1562a7fbd1|2082788692|data/data_raw/unziped/g_assignee_disambiguated.tsv|t19927.9502546296s|19181e6d5ae6bb8c|1037584231|file|local|vector|||0||
 assignee_raw|stem|17eea75cde4ed1c1|40f15c41a175cdbd|79a369d88be37457|976176214||t19941.045537341s|408b0c8a8799d884|280998712|rds|local|vector|||10.329||
 cnty_assignee|stem|797390a9425a19e4|b6406f748a6fff82|8007f18383e9d0f0|1368433758||t19941.0458222648s|ca7c7ed05af2cbf5|14207|rds|local|vector|||6.185||
@@ -30,5 +30,6 @@ patent_file|stem|6382176349c156c2|616c7aff6ee4d76d|2c530c1562a7fbd1|937146725|da
 patent_raw|stem|59f0629f2402835a|6a600ad9163aa470|81c1fde921865d1e|-1365469139||t19941.045115477s|bd06401e3a9409f8|202280349|rds|local|vector|||14.055||
 read_sample|function|50fa3240879e5a1a|||||||||||||||
 table_with_options|function|8aaa3df01d5209e3|||||||||||||||
-website|stem|a7f495f599caff26|6e03b1f5959c23f3|2c530c1562a7fbd1|442635132|_site*about.qmd*glossary.qmd*index.qmd*map_relation.qmd*pipeline.qmd*_quarto.yml*styles.css|t19941.0739156207s|3b7fc7c18a8ac9cd|4582332|file|local|vector|||6.253||
-write_county|stem|7f64d27a16de8c73|c2fa8d5cfaf72fcf|686b465f476e51ea|990485011||t19941.0705721446s|d21be8cf0dd771ce|44|rds|local|vector|||0.034||
+website|stem|fa4e37cf6c3413b5|6e03b1f5959c23f3|2c530c1562a7fbd1|442635132|_site*about.qmd*glossary.qmd*index.qmd*map_relation.qmd*pipeline.qmd*_quarto.yml*styles.css|t19941.5363924256s|af4035c983fb34ed|7163|file|local|vector|||7.303||
+write_county|stem|7f64d27a16de8c73|8a62caed95174ccb|686b465f476e51ea|990485011||t19941.5364056154s|d21be8cf0dd771ce|44|rds|local|vector|||0.023||
+write_inv|stem|7f64d27a16de8c73|9120c02043f27c7f|d153130cf2242f34|457229538||t19941.5364051491s|d21be8cf0dd771ce|44|rds|local|vector|||0.002||
