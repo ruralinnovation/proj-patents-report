@@ -98,6 +98,7 @@ get_me_county_year_patent <- function(dat) {
   summarized <- dplyr::summarize(dat,
                                  cnt_patent = length(unique(patent_id)),
                                  cnt_inventor = length(unique(inventor_id)),
+                                 cnt_assigne = length(unique(assignee_id)),
                                  .by = c(geoid_co, year))
   return(summarized)
 }
