@@ -68,3 +68,12 @@ dl_me_raw_stuff <- function(file, path = "data/data_raw/unzipped") {
   message(sprintf("%s was downloaded", file))
   unzip(my_dest, exdir = path)
 }
+
+
+#' count unique not NA value of x
+#''
+#' @param x avector 
+
+my_unique <- function(x) {
+  length(unique(na.omit(x)))
+}
