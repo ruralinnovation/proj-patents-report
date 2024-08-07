@@ -1,5 +1,30 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PatentsView Primer for CORI’s MDA",
+    "section": "",
+    "text": "PatentsView provides insights about patents.\nThe data can be accessed either with either:\n\ntheir elastic search API and an R wrapper around it (patentsview)\nor by bulk download"
+  },
+  {
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "PatentsView also has a very nice glossary that I discovered later.\n“Assignee: Organization(s) and individual(s) that have an ownership interest in the legal rights a patent offers”1\n1 source: https://asklib.library.hbs.edu/faq/267606“Inventor: individual(s) who have contributed to the claimed invention. However, they may or may not have an ownership interest in the legal rights of the patent.”\n“Applicant: Organization or individual that files the patent application is called the “applicant.” This could be the original inventor, or it could be the assignee.”\nIPC: International Patent Classification\nCPC: Cooperative Patent Classification",
+    "crumbs": [
+      "Home",
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
+  },
+  {
     "objectID": "pipeline.html",
     "href": "pipeline.html",
     "title": "Result of pipelines",
@@ -86,30 +111,5 @@
       "Home",
       "Relations between tables"
     ]
-  },
-  {
-    "objectID": "glossary.html",
-    "href": "glossary.html",
-    "title": "Glossary",
-    "section": "",
-    "text": "PatentsView also has a very nice glossary that I discovered later.\n“Assignee: Organization(s) and individual(s) that have an ownership interest in the legal rights a patent offers”1\n1 source: https://asklib.library.hbs.edu/faq/267606“Inventor: individual(s) who have contributed to the claimed invention. However, they may or may not have an ownership interest in the legal rights of the patent.”\n“Applicant: Organization or individual that files the patent application is called the “applicant.” This could be the original inventor, or it could be the assignee.”\nIPC: International Patent Classification\nCPC: Cooperative Patent Classification",
-    "crumbs": [
-      "Home",
-      "Glossary"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PatentsView Primer for CORI’s MDA",
-    "section": "",
-    "text": "PatentsView provides insights about patents.\nThe data can be accessed either with either:\n\ntheir elastic search API and an R wrapper around it (patentsview)\nor by bulk download"
   }
 ]
