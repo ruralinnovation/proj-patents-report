@@ -51,7 +51,7 @@
     "href": "pipeline.html#county-data",
     "title": "Result of pipelines",
     "section": "County data",
-    "text": "County data\n\nFocus on assignee for location:\n\n\nCode\ncnty &lt;- read.csv(\"data/county_patent.csv\")\ntable_with_options(cnty)\n\n\n\n\n\n\n\n\nUsing location of inventor\n\n\nCode\ncnty &lt;- read.csv(\"data/county_inv.csv\")\ntable_with_options(cnty)",
+    "text": "County data\n\nFocus on assignee for location:\n\n\nCode\ncnty &lt;- read.csv(\"data/county_patent.csv\", \n                 colClasses = c(\"character\", \"character\", \n                                \"numeric\", \"numeric\",\n                                \"numeric\")) \nsuppressMessages(table_with_options(cnty))\n\n\nWarning in instance$preRenderHook(instance): It seems your data is too big for\nclient-side DataTables. You may consider server-side processing:\nhttps://rstudio.github.io/DT/server.html\n\n\n\n\n\n\n\n\nUsing location of inventor\n\n\nCode\ncnty &lt;- read.csv(\"data/county_inv.csv\")\ntable_with_options(cnty)",
     "crumbs": [
       "Home",
       "Result of pipelines"
