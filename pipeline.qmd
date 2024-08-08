@@ -31,8 +31,11 @@ tar_glimpse()
 
 ```{r}
 #| label: table patent county
-cnty <- read.csv("data/county_patent.csv")
-table_with_options(cnty)
+cnty <- read.csv("data/county_patent.csv", 
+                 colClasses = c("character", "character", 
+                                "numeric", "numeric",
+                                "numeric")) 
+suppressMessages(table_with_options(cnty))
 ```
 
 

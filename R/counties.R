@@ -94,39 +94,51 @@ get_me_inv_cty <- function(inventor, location) {
 get_me_county_year_patent <- function(dat) {
   # not happy on hwo to deal with missing year county
   # kind of relying that I have all cty and year
-  tidy_base <- expand.grid(unique(dat$geoid_co),
-                           unique(na.omit(dat$year)))
+  tidy_base <- expand.grid(unique(na.omit(dat$geoid_co)),
+                           unique(na.omit(dat$year)),
+                           stringsAsFactors = FALSE)
   names(tidy_base) <- c("geoid_co", "year")
 
-  # I kept NA in year but removed them from geoid_Co
-  dat <- dat[!is.na(dat$geoid_co), ]
-  dat$geoid_st <- substr(dat$geoid_co, 1, 2)
+  dat2 <-  dplyr::bind_rows(tidy_base, dat)
 
-  summarized_co <-
-    dplyr::summarize(dat,
+  dat2$geoid_st <- substr(dat2$geoid_co, 1, 2)
+
+  summarized_co <- dat2 |>
+    dplyr::filter(!is.na(geoid_co)) |>
+    dplyr::summarize(
                      cnt_patents = my_unique(patent_id),
                      cnt_patent_inventors = my_unique(inventor_id),
                      cnt_pantent_owners = my_unique(assignee_id),
                      .by = c(geoid_co, year)) |>
-    dplyr::rename(geoid = geoid_co)
+    dplyr::rename(geoid = geoid_co) |>
+    dplyr::filter(!is.na(year))
 
-  summarized_st <-
-    dplyr::summarize(dat,
+  stopifnot(nrow(summarized_co) == 155722)
+
+
+  summarized_st <- dat2 |>
+    dplyr::filter(!is.na(geoid_st)) |>
+    dplyr::summarize(
                      cnt_patents = my_unique(patent_id),
                      cnt_patent_inventors = my_unique(inventor_id),
                      cnt_pantent_owners = my_unique(assignee_id),
                      .by = c(geoid_st, year)) |>
-    dplyr::rename(geoid = geoid_st)
+    dplyr::rename(geoid = geoid_st) |>
+    dplyr::filter(!is.na(year))
+
+  stopifnot(nrow(summarized_st) == 2744)
 
   summarized_natl <-
-    dplyr::summarize(dat,
+    dplyr::summarize(dat2,
                      cnt_patents = my_unique(patent_id),
                      cnt_patent_inventors = my_unique(inventor_id),
                      cnt_pantent_owners = my_unique(assignee_id),
-                     .by =  year)
+                     .by =  year) |>
+    dplyr::filter(!is.na(year))
+    
   summarized_natl$geoid <- "00"
 
-  summarized <- rbind(summarized_co, summarized_st, summarized_natl)
+  summarized <- dplyr::bind_rows(summarized_co, summarized_st, summarized_natl)
 
   return(summarized)
 }
