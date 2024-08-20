@@ -36,23 +36,22 @@ get_me_patent_assignee_loc <- function(patent, assignee, location, inventor) {
 
   patent_w_assignee <- merge(patent, slim_assignee,
                              by.x = "patent_id", by.y = "patent_id",
-                             all.x  = TRUE, all.y = TRUE)
+                             all.x  = TRUE, all.y = FALSE)
+
+  patent_w_assignee_location <- merge(patent_w_assignee, location,
+                                      by.x = "location_id",
+                                      by.y = "location_id",
+                                      all.x  = TRUE, all.y = FALSE)
 
   slim_inventor <- inventor[, c("patent_id", "inventor_id")]
 
   # a patent can have multiple assignees
   # in that case I will count them more than once in location
 
-
-  patent_w_assignee_location <- merge(patent_w_assignee, location,
-                                      by.x = "location_id",
-                                      by.y = "location_id",
-                                      all.x  = TRUE, all.y = TRUE)
-
   full_table <- merge(patent_w_assignee_location, slim_inventor,
                       by.x = "patent_id",
                       by.y = "patent_id",
-                      all.x  = TRUE, all.y = TRUE)
+                      all.x  = TRUE, all.y = FALSE)
 
   # obv you have assignee with multiple location
   return(full_table)
@@ -128,17 +127,19 @@ get_me_county_year_patent <- function(dat) {
 
   stopifnot(nrow(summarized_st) == 2744)
 
-  summarized_natl <-
-    dplyr::summarize(dat2,
+  summarized_natl2 <- dat2 |>
+    dplyr::filter(!is.na(dat2$year)) |>
+    dplyr::summarize(
                      cnt_patents = my_unique(patent_id),
                      cnt_patent_inventors = my_unique(inventor_id),
                      cnt_pantent_owners = my_unique(assignee_id),
-                     .by =  year) |>
-    dplyr::filter(!is.na(year))
-    
+                     .by =  year)
+
+
   summarized_natl$geoid <- "00"
 
   summarized <- dplyr::bind_rows(summarized_co, summarized_st, summarized_natl)
 
   return(summarized)
 }
+
