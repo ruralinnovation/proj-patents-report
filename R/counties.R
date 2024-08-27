@@ -83,6 +83,22 @@ get_me_inv_cty <- function(inventor, location) {
   return(summarized)
 }
 
+#' Return a combo of all years and county in the data set
+#'
+#' should get me a PK on geoid_co / year useful for join
+#'
+#' @param dat big data with patent / assignee and location
+#'
+#' @return a data frame
+#'
+get_rel_table_co_year <- function(dat) {
+  tidy_base <- expand.grid(unique(na.omit(dat$geoid_co)),
+                           unique(na.omit(dat$year)),
+                           stringsAsFactors = FALSE)
+  names(tidy_base) <- c("geoid_co", "year")
+  tidy_base[order(tidy_base$geoid_co, tidy_base$year), ]
+}
+
 #' Summarized by county and year number of patents
 #'
 #' kept when year is NA for overal summary
@@ -93,10 +109,9 @@ get_me_inv_cty <- function(inventor, location) {
 get_me_county_year_patent <- function(dat) {
   # not happy on hwo to deal with missing year county
   # kind of relying that I have all cty and year
-  tidy_base <- expand.grid(unique(na.omit(dat$geoid_co)),
-                           unique(na.omit(dat$year)),
-                           stringsAsFactors = FALSE)
-  names(tidy_base) <- c("geoid_co", "year")
+
+
+  dat <- dat[!is.na(dat$geoid_co), ]
 
   dat2 <-  dplyr::bind_rows(tidy_base, dat)
 
