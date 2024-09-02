@@ -167,3 +167,44 @@ get_me_county_year_patent <- function(dat) {
   return(summarized)
 }
 
+slim_cpc <- function(cpc_raw) {
+  # not great
+  cpc_raw <- as.data.frame(cpc_raw)
+  cpc <- cpc_raw[c("patent_id", "cpc_class")]
+  cpc$cpc_subsection <- substr(cpc$cpc_class, 1, 2)
+  cpc$temp_id <- paste(cpc$patent_id, cpc$cpc_subsection, sep = "-")
+  cpc_pk <- cpc[!duplicated(cpc$temp_id),
+                c("patent_id", "cpc_subsection")]
+  return(cpc_pk)
+}
+
+
+get_patent_counts_wide <- function(patent_raw, cpc, assignee, location, cpc_codes) {
+  # good news sis that patent id from cpc is a correct fk
+  # no patent_id here that are not in patent_raw
+  patent_raw$year <- format(as.Date(patent_raw$patent_date,
+                                    format = "%Y/%m/%d"), "%Y")
+  patent <- patent_raw[, list(patent_id, year)]
+  cpc$patent_id <- as.character(cpc$patent_id)
+  patent_cpc <- merge(patent, cpc,
+                      by.x = "patent_id", by.y = "patent_id",
+                      all.x = TRUE, all.y = TRUE)
+  patent_cpc_get2014 <- patent_cpc[patent_cpc$year >= 2014 & patent_cpc$year < 2024,]
+  # remove quite a lot, need to keep assignee ID or not anymore a PK
+  # for some reason we have case where we have multiple of same assignee per patent
+  slim_assignee <- assignee[, list(patent_id, location_id, assignee_id)]
+  slim_assigne_no_dup <- slim_assignee[!duplicated(slim_assignee), ]
+  slim_location <- location[, list(location_id, geoid_co)]
+  assignee_us <- merge(slim_assigne_no_dup, slim_location,
+                       by = "location_id")
+  tidy_patents <- merge(patent_cpc_get2014, assignee_us, by = "patent_id")
+  tidy_cori_patents <- merge(tidy_patents, cpc_codes, by = "cpc_subsection")
+  slim_tidy_cori_patents <- tidy_cori_patents[, list(patent_id, year,
+                                                     cpc_subsection, assignee_id,
+                                                     geoid_co)]
+  patent_counts_wide <- slim_tidy_cori_patents |>
+              as.data.frame() |>
+              dplyr::mutate(value = 1) |>
+              tidyr::pivot_wider(names_from = cpc_subsection,
+                                 values_from = value)
+}
