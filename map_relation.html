@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-08-08">
+<meta name="dcterms.date" content="2024-09-02">
 
 <title>Relations between tables – PatentsView Primer for CORI’s MDA</title>
 <style>
@@ -217,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 8, 2024</p>
+      <p class="date">September 2, 2024</p>
     </div>
   </div>
   
@@ -248,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/utils.R"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"mkdir -p data/data_raw/unziped"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"mkdir -p data/data_raw/unzipped"</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>tsv <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_assignee_disambiguated.tsv"</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_inventor_disambiguated.tsv"</span>, </span>
@@ -325,10 +325,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>i_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"g_assignee_disambiguated.tsv.head"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_inventor_disambiguated.tsv.head"</span>, </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_location_disambiguated.tsv.head"</span>, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_patent.tsv.head"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[i_data])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_patent.tsv.head"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"g_cpc_current.tsv.head"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># yes dm can also just take a list of df</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pot_schema_no_keys <span class="ot">&lt;-</span> <span class="fu">as_dm</span>(list_samples[i_data])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Sadly I need to first test what are the primary and foreign key (PK and FK) and if I can trust the data about that: meaning reading a bunch of big csv and not only sampling to build the schema.</p>
@@ -362,7 +363,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>(<span class="fu">check_key</span>(g_location_dis, location_id)) </span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## patent id </span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_assignee_dis[<span class="sc">!</span>g_assignee_dis<span class="sc">$</span>location_id <span class="sc">==</span> <span class="st">""</span>,], patent_id, g_patent, patent_id)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_inventor_dis, patent_id, g_patent, patent_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">check_subset</span>(g_inventor_dis, patent_id, g_patent, patent_id)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## cpc</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>dm<span class="sc">::</span><span class="fu">check_key</span>(cpc, patent_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Slowly adding them:</p>
@@ -392,7 +395,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head) <span class="sc">|&gt;</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_inventor_disambiguated.tsv.head,</span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>              patent_id,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head) <span class="sc">|&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dm_add_fk</span>(g_cpc_current.tsv.head, patent_id,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>              g_patent.tsv.head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -413,35 +418,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %0 Pages: 1 -->
-<svg width="489pt" height="500pt" viewbox="0.00 0.00 489.00 500.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 496)">
+<svg width="489pt" height="650pt" viewbox="0.00 0.00 489.00 650.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 646)">
 <title>%0</title>
 <g id="a_graph0"><a title="Data Model">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-496 485,-496 485,4 -4,4"></polygon>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-646 485,-646 485,4 -4,4"></polygon>
 </a>
 </g>
 <!-- g_assignee_disambiguated.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head" class="node">
 <title>g_assignee_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="1,-471 1,-491 241,-491 241,-471 1,-471"></polygon>
-<text text-anchor="start" x="21.0806" y="-476.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-451 1,-471 241,-471 241,-451 1,-451"></polygon>
-<text text-anchor="start" x="3" y="-456.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-431 1,-451 241,-451 241,-431 1,-431"></polygon>
-<text text-anchor="start" x="3" y="-436.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-411 1,-431 241,-431 241,-411 1,-411"></polygon>
-<text text-anchor="start" x="3" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-391 1,-411 241,-411 241,-391 1,-391"></polygon>
-<text text-anchor="start" x="2.8008" y="-396.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-371 1,-391 241,-391 241,-371 1,-371"></polygon>
-<text text-anchor="start" x="3" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-351 1,-371 241,-371 241,-351 1,-351"></polygon>
-<text text-anchor="start" x="3" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-331 1,-351 241,-351 241,-331 1,-331"></polygon>
-<text text-anchor="start" x="3" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="1,-311 1,-331 241,-331 241,-311 1,-311"></polygon>
-<text text-anchor="start" x="3" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="0,-310 0,-492 242,-492 242,-310 0,-310"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="1,-261 1,-281 241,-281 241,-261 1,-261"></polygon>
+<text text-anchor="start" x="21.0806" y="-266.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_assignee_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-241 1,-261 241,-261 241,-241 1,-241"></polygon>
+<text text-anchor="start" x="3" y="-246.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-221 1,-241 241,-241 241,-221 1,-221"></polygon>
+<text text-anchor="start" x="3" y="-226.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-201 1,-221 241,-221 241,-201 1,-201"></polygon>
+<text text-anchor="start" x="3" y="-206.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-181 1,-201 241,-201 241,-181 1,-181"></polygon>
+<text text-anchor="start" x="2.8008" y="-186.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-161 1,-181 241,-181 241,-161 1,-161"></polygon>
+<text text-anchor="start" x="3" y="-166.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_individual_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-141 1,-161 241,-161 241,-141 1,-141"></polygon>
+<text text-anchor="start" x="3" y="-146.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_assignee_organization</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-121 1,-141 241,-141 241,-121 1,-121"></polygon>
+<text text-anchor="start" x="3" y="-126.4" font-family="Times,serif" font-size="14.00" fill="#444444">assignee_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="1,-101 1,-121 241,-121 241,-101 1,-101"></polygon>
+<text text-anchor="start" x="3" y="-106.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="0,-100 0,-282 242,-282 242,-100 0,-100"></polygon>
 </g>
 <!-- g_location_disambiguated.tsv.head -->
 <g id="g_location_disambiguated.tsv.head" class="node">
@@ -471,70 +476,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- g_assignee_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head_1" class="edge">
 <title>g_assignee_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
-<path fill="none" stroke="#555555" d="M241,-321C305.9291,-321 221.3659,-187.511 269.3604,-172.3892"></path>
-<polygon fill="#555555" stroke="#555555" points="270.0677,-175.825 279.5,-171 269.1174,-168.8898 270.0677,-175.825"></polygon>
+<path fill="none" stroke="#555555" d="M241,-111C268.4763,-111 253.4238,-156.1208 269.6034,-168.1061"></path>
+<polygon fill="#555555" stroke="#555555" points="268.9196,-171.5526 279.5,-171 270.8843,-164.834 268.9196,-171.5526"></polygon>
 </g>
 <!-- g_patent.tsv.head -->
 <g id="g_patent.tsv.head" class="node">
 <title>g_patent.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="329.5,-411 329.5,-431 430.5,-431 430.5,-411 329.5,-411"></polygon>
-<text text-anchor="start" x="331.0126" y="-416.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_patent.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-391 329.5,-411 430.5,-411 430.5,-391 329.5,-391"></polygon>
-<text text-anchor="start" x="331.5" y="-397.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-371 329.5,-391 430.5,-391 430.5,-371 329.5,-371"></polygon>
-<text text-anchor="start" x="331.5" y="-376.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_type</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-351 329.5,-371 430.5,-371 430.5,-351 329.5,-351"></polygon>
-<text text-anchor="start" x="331.5" y="-356.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_date</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-331 329.5,-351 430.5,-351 430.5,-331 329.5,-331"></polygon>
-<text text-anchor="start" x="331.5" y="-336.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_title</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-311 329.5,-331 430.5,-331 430.5,-311 329.5,-311"></polygon>
-<text text-anchor="start" x="331.5" y="-316.4" font-family="Times,serif" font-size="14.00" fill="#444444">wipo_kind</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-291 329.5,-311 430.5,-311 430.5,-291 329.5,-291"></polygon>
-<text text-anchor="start" x="331.5" y="-296.4" font-family="Times,serif" font-size="14.00" fill="#444444">num_claims</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-271 329.5,-291 430.5,-291 430.5,-271 329.5,-271"></polygon>
-<text text-anchor="start" x="331.5" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#444444">withdrawn</text>
-<polygon fill="#ffffff" stroke="transparent" points="329.5,-251 329.5,-271 430.5,-271 430.5,-251 329.5,-251"></polygon>
-<text text-anchor="start" x="331.5" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">filename</text>
-<polygon fill="none" stroke="#555555" points="328,-250 328,-432 431,-432 431,-250 328,-250"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="329.5,-441 329.5,-461 430.5,-461 430.5,-441 329.5,-441"></polygon>
+<text text-anchor="start" x="331.0126" y="-446.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_patent.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-421 329.5,-441 430.5,-441 430.5,-421 329.5,-421"></polygon>
+<text text-anchor="start" x="331.5" y="-427.4" font-family="Times,serif" text-decoration="underline" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-401 329.5,-421 430.5,-421 430.5,-401 329.5,-401"></polygon>
+<text text-anchor="start" x="331.5" y="-406.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_type</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-381 329.5,-401 430.5,-401 430.5,-381 329.5,-381"></polygon>
+<text text-anchor="start" x="331.5" y="-386.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_date</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-361 329.5,-381 430.5,-381 430.5,-361 329.5,-361"></polygon>
+<text text-anchor="start" x="331.5" y="-366.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_title</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-341 329.5,-361 430.5,-361 430.5,-341 329.5,-341"></polygon>
+<text text-anchor="start" x="331.5" y="-346.4" font-family="Times,serif" font-size="14.00" fill="#444444">wipo_kind</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-321 329.5,-341 430.5,-341 430.5,-321 329.5,-321"></polygon>
+<text text-anchor="start" x="331.5" y="-326.4" font-family="Times,serif" font-size="14.00" fill="#444444">num_claims</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-301 329.5,-321 430.5,-321 430.5,-301 329.5,-301"></polygon>
+<text text-anchor="start" x="331.5" y="-306.4" font-family="Times,serif" font-size="14.00" fill="#444444">withdrawn</text>
+<polygon fill="#ffffff" stroke="transparent" points="329.5,-281 329.5,-301 430.5,-301 430.5,-281 329.5,-281"></polygon>
+<text text-anchor="start" x="331.5" y="-286.4" font-family="Times,serif" font-size="14.00" fill="#444444">filename</text>
+<polygon fill="none" stroke="#555555" points="328,-280 328,-462 431,-462 431,-280 328,-280"></polygon>
 </g>
 <!-- g_assignee_disambiguated.tsv.head&#45;&gt;g_patent.tsv.head -->
 <g id="g_assignee_disambiguated.tsv.head_2" class="edge">
 <title>g_assignee_disambiguated.tsv.head:patent_id-&gt;g_patent.tsv.head:patent_id</title>
-<path fill="none" stroke="#555555" d="M241,-461C284.8082,-461 282.6714,-410.0088 319.3007,-402.0414"></path>
-<polygon fill="#555555" stroke="#555555" points="319.9073,-405.4978 329.5,-401 319.1962,-398.534 319.9073,-405.4978"></polygon>
+<path fill="none" stroke="#555555" d="M241,-251C326.4902,-251 247.4182,-416.5372 319.4092,-430.1164"></path>
+<polygon fill="#555555" stroke="#555555" points="319.2328,-433.6143 329.5,-431 319.8435,-426.6409 319.2328,-433.6143"></polygon>
+</g>
+<!-- g_cpc_current.tsv.head -->
+<g id="g_cpc_current.tsv.head" class="node">
+<title>g_cpc_current.tsv.head</title>
+<polygon fill="#efebdd" stroke="transparent" points="55,-621 55,-641 188,-641 188,-621 55,-621"></polygon>
+<text text-anchor="start" x="56.5827" y="-626.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_cpc_current.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-601 55,-621 188,-621 188,-601 55,-601"></polygon>
+<text text-anchor="start" x="57" y="-606.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-581 55,-601 188,-601 188,-581 55,-581"></polygon>
+<text text-anchor="start" x="57" y="-586.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-561 55,-581 188,-581 188,-561 55,-561"></polygon>
+<text text-anchor="start" x="57" y="-566.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_section</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-541 55,-561 188,-561 188,-541 55,-541"></polygon>
+<text text-anchor="start" x="57" y="-546.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_class</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-521 55,-541 188,-541 188,-521 55,-521"></polygon>
+<text text-anchor="start" x="57" y="-526.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_subclass</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-501 55,-521 188,-521 188,-501 55,-501"></polygon>
+<text text-anchor="start" x="57" y="-506.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_group</text>
+<polygon fill="#ffffff" stroke="transparent" points="55,-481 55,-501 188,-501 188,-481 55,-481"></polygon>
+<text text-anchor="start" x="57" y="-486.4" font-family="Times,serif" font-size="14.00" fill="#444444">cpc_type</text>
+<polygon fill="none" stroke="#555555" points="53.5,-480 53.5,-642 188.5,-642 188.5,-480 53.5,-480"></polygon>
+</g>
+<!-- g_cpc_current.tsv.head&#45;&gt;g_patent.tsv.head -->
+<g id="g_cpc_current.tsv.head_1" class="edge">
+<title>g_cpc_current.tsv.head:patent_id-&gt;g_patent.tsv.head:patent_id</title>
+<path fill="none" stroke="#555555" d="M188,-611C286.1821,-611 231.8987,-443.4338 319.3606,-431.6518"></path>
+<polygon fill="#555555" stroke="#555555" points="319.7452,-435.1344 329.5,-431 319.296,-428.1488 319.7452,-435.1344"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head" class="node">
 <title>g_inventor_disambiguated.tsv.head</title>
-<polygon fill="#efebdd" stroke="transparent" points="20,-271 20,-291 223,-291 223,-271 20,-271"></polygon>
-<text text-anchor="start" x="21.9642" y="-276.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-251 20,-271 223,-271 223,-251 20,-251"></polygon>
-<text text-anchor="start" x="22" y="-256.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-231 20,-251 223,-251 223,-231 20,-231"></polygon>
-<text text-anchor="start" x="22" y="-236.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-211 20,-231 223,-231 223,-211 20,-211"></polygon>
-<text text-anchor="start" x="22" y="-216.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-191 20,-211 223,-211 223,-191 20,-191"></polygon>
-<text text-anchor="start" x="22" y="-196.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-171 20,-191 223,-191 223,-171 20,-171"></polygon>
-<text text-anchor="start" x="22" y="-176.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-151 20,-171 223,-171 223,-151 20,-151"></polygon>
-<text text-anchor="start" x="22" y="-156.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
-<polygon fill="#ffffff" stroke="transparent" points="20,-131 20,-151 223,-151 223,-131 20,-131"></polygon>
-<text text-anchor="start" x="22" y="-136.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
-<polygon fill="none" stroke="#555555" points="18.5,-130 18.5,-292 223.5,-292 223.5,-130 18.5,-130"></polygon>
+<polygon fill="#efebdd" stroke="transparent" points="20,-441 20,-461 223,-461 223,-441 20,-441"></polygon>
+<text text-anchor="start" x="21.9642" y="-446.4" font-family="Times,serif" font-size="14.00" fill="#000000">g_inventor_disambiguated.tsv.head</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-421 20,-441 223,-441 223,-421 20,-421"></polygon>
+<text text-anchor="start" x="22" y="-426.4" font-family="Times,serif" font-size="14.00" fill="#444444">patent_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-401 20,-421 223,-421 223,-401 20,-401"></polygon>
+<text text-anchor="start" x="22" y="-406.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_sequence</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-381 20,-401 223,-401 223,-381 20,-381"></polygon>
+<text text-anchor="start" x="22" y="-386.4" font-family="Times,serif" font-size="14.00" fill="#444444">inventor_id</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-361 20,-381 223,-381 223,-361 20,-361"></polygon>
+<text text-anchor="start" x="22" y="-366.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_first</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-341 20,-361 223,-361 223,-341 20,-341"></polygon>
+<text text-anchor="start" x="22" y="-346.4" font-family="Times,serif" font-size="14.00" fill="#444444">disambig_inventor_name_last</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-321 20,-341 223,-341 223,-321 20,-321"></polygon>
+<text text-anchor="start" x="22" y="-326.4" font-family="Times,serif" font-size="14.00" fill="#444444">gender_code</text>
+<polygon fill="#ffffff" stroke="transparent" points="20,-301 20,-321 223,-321 223,-301 20,-301"></polygon>
+<text text-anchor="start" x="22" y="-306.4" font-family="Times,serif" font-size="14.00" fill="#444444">location_id</text>
+<polygon fill="none" stroke="#555555" points="18.5,-300 18.5,-462 223.5,-462 223.5,-300 18.5,-300"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_location_disambiguated.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head_1" class="edge">
 <title>g_inventor_disambiguated.tsv.head:location_id-&gt;g_location_disambiguated.tsv.head:location_id</title>
-<path fill="none" stroke="#555555" d="M223,-141C247.6554,-141 250.6571,-163.5604 269.5607,-169.553"></path>
-<polygon fill="#555555" stroke="#555555" points="269.1001,-173.0228 279.5,-171 270.1086,-166.0958 269.1001,-173.0228"></polygon>
+<path fill="none" stroke="#555555" d="M223,-311C286.2977,-311 220.7388,-186.4102 269.4395,-172.2965"></path>
+<polygon fill="#555555" stroke="#555555" points="270.0294,-175.7496 279.5,-171 269.1346,-168.807 270.0294,-175.7496"></polygon>
 </g>
 <!-- g_inventor_disambiguated.tsv.head&#45;&gt;g_patent.tsv.head -->
 <g id="g_inventor_disambiguated.tsv.head_2" class="edge">
 <title>g_inventor_disambiguated.tsv.head:patent_id-&gt;g_patent.tsv.head:patent_id</title>
-<path fill="none" stroke="#555555" d="M223,-261C297.5149,-261 255.7134,-388.1826 319.3236,-400.106"></path>
-<polygon fill="#555555" stroke="#555555" points="319.232,-403.6113 329.5,-401 319.8447,-396.6382 319.232,-403.6113"></polygon>
+<path fill="none" stroke="#555555" d="M223,-431C266.6354,-431 280.101,-431 319.0224,-431"></path>
+<polygon fill="#555555" stroke="#555555" points="319.5,-434.5001 329.5,-431 319.5,-427.5001 319.5,-434.5001"></polygon>
 </g>
 </g>
 </svg>
