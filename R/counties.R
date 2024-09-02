@@ -100,8 +100,8 @@ get_me_inv_cty <- function(inventor, location) {
 #'
 #' @return a data frame
 #'
-get_rel_table_co_year <- function(dat) {
-  tidy_base <- expand.grid(unique(na.omit(dat$geoid_co)),
+get_rel_table_co_year <- function(dat, geoid_co_2010) {
+  tidy_base <- expand.grid(geoid_co_2010$GEOID,
                            unique(na.omit(dat$year)),
                            stringsAsFactors = FALSE)
   names(tidy_base) <- c("geoid_co", "year")
