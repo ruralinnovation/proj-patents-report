@@ -26,6 +26,15 @@ get_me_us_location <- function(dat) {
 #' @return a data frame
 
 
+# Use PG to get counties
+
+get_me_us_counties2010 <- function() {
+  con <- cori.db::connect_to_db("sch_census_tiger")
+  on.exit(DBI::dbDisconnect(con))
+  q <- 'select "GEOID" from sch_census_tiger.source_cb_2019_county'
+  DBI::dbGetQuery(con, q)
+}
+
 get_me_patent_assignee_loc <- function(patent, assignee, location, inventor) {
 
   patent$year <- format(as.Date(patent$patent_date, format = "%Y/%m/%d"), "%Y")

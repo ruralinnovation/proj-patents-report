@@ -3,8 +3,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("tibble", "data.table", "dplyr"),
-  seed = 42
+  packages = c("tibble", "data.table", "dplyr", "cori.db", "DBI")
 )
 
 tar_source()
@@ -36,7 +35,8 @@ list(
                                         assignee_raw,
                                         location_us,
                                         inventor_raw)),
-  tar_target(rel_geoid_year, get_rel_table_co_year(patent_assignee_location))
+  tar_target(rel_geoid_year, get_rel_table_co_year(patent_assignee_location)),
+  tar_target(geoid_co_2010, get_me_us_counties2010())
   # tar_target(cnty_patent, get_me_county_year_patent(patent_assignee_location)),
   # tar_target(cnty_inv, get_me_inv_cty(inventor_raw, location_us)),
   # tar_quarto(website, quiet = FALSE),
