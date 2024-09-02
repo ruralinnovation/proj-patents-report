@@ -11,19 +11,22 @@ tar_source()
 list(
   tar_target(
              patent_file,
-             "data/data_raw/unziped/g_patent.tsv",
+             "data/data_raw/unzipped/g_patent.tsv",
              format = "file"),
   tar_target(
              assignee_file,
-             "data/data_raw/unziped/g_assignee_disambiguated.tsv",
+             "data/data_raw/unzipped/g_assignee_disambiguated.tsv",
              format = "file"),
   tar_target(
              inventor_file,
-             "data/data_raw/unziped/g_inventor_disambiguated.tsv",
+             "data/data_raw/unzipped/g_inventor_disambiguated.tsv",
              format = "file"),
   tar_target(
              location_file,
-             "data/data_raw/unziped/g_location_disambiguated.tsv",
+             "data/data_raw/unzipped/g_location_disambiguated.tsv",
+             format = "file"),
+  tar_target(g_cpc__raw,
+             "data/data_raw/unzipped/g_cpc_current.tsv",
              format = "file"),
   tar_target(cpc_codes,
              "data/CPC_patent_codes.csv",
@@ -33,6 +36,7 @@ list(
   tar_target(inventor_raw, fread_tsv(inventor_file)),
   tar_target(location_raw, fread_tsv(location_file)),
   tar_target(location_us, get_me_us_location(location_raw)),
+
   tar_target(patent_assignee_location,
              get_me_patent_assignee_loc(patent_raw,
                                         assignee_raw,

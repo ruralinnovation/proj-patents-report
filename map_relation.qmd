@@ -30,7 +30,7 @@ I make a quick function:
 #| eval: false 
 source("R/utils.R")
 
-system("mkdir -p data/data_raw/unziped")
+system("mkdir -p data/data_raw/unzipped")
 
 tsv <- c("g_assignee_disambiguated.tsv",
             "g_inventor_disambiguated.tsv", 
@@ -78,7 +78,8 @@ names(list_samples)
 i_data <- c("g_assignee_disambiguated.tsv.head",
             "g_inventor_disambiguated.tsv.head", 
             "g_location_disambiguated.tsv.head", 
-            "g_patent.tsv.head")
+            "g_patent.tsv.head",
+            "g_cpc_current.tsv.head")
 
 # yes dm can also just take a list of df
 pot_schema_no_keys <- as_dm(list_samples[i_data])
