@@ -2,9 +2,11 @@ name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iterat
 assignee_file|stem|62fc812b42f8aa00|ff2fad4cee4a8e2c|2c530c1562a7fbd1|-130791275|data/data_raw/unzipped/g_assignee_disambiguated.tsv|t19941.7783078089s|19181e6d5ae6bb8c|1037584231|file|local|vector|||0||
 assignee_raw|stem|17eea75cde4ed1c1|40f15c41a175cdbd|79a369d88be37457|-1776892158||t19965.6105602966s|408b0c8a8799d884|280998712|rds|local|vector|||8.411||
 cpc_codes|stem|46ac3b5adf4523d4|aa8141e132cf2a5c|2c530c1562a7fbd1|-2144215752|data/CPC_patent_codes.csv|t19968.61136586s|8282224de3c290c3|1722|file|local|vector|||0.295||
+cpc_raw|stem|a1cfc330de9c55ac|84edb6fd9a718ad7|5927f53d1a43fd9b|1538963313||t19968.6457792864s|d684a3f50d50d6f2|532625286|rds|local|vector|||10.251||
 dl_me_raw_stuff|function|bbeea75760693d15|||||||||||||||
 fread_tsv|function|7ef75a74c1bb5788|||||||||||||||
 g_cpc__raw|stem|5f3ffe1b4c7cf13e|08cbdf3bf89cf02d|2c530c1562a7fbd1|-1880377470|data/data_raw/unzipped/g_cpc_current.tsv|t19927.9815740741s|f4ef676c9a778ac7|3061888120|file|local|vector|||0||
+g_cpc_raw|stem|5f3ffe1b4c7cf13e|08cbdf3bf89cf02d|2c530c1562a7fbd1|-1920717410|data/data_raw/unzipped/g_cpc_current.tsv|t19927.9815740741s|f4ef676c9a778ac7|3061888120|file|local|vector|||0.279||
 geoid_co_2010|stem|c24c51576aca7c74|5c00783cb6177b07|a7b5b64f3ada39c0|-673933128||t19965.6408007638s|99c087feab70aeab|8761|rds|local|vector|||0.988||
 get_me_county_year_patent|function|ea46f1be07c168ec|||||||||||||||
 get_me_inv_cty|function|73c960e86262be43|||||||||||||||

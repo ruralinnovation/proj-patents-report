@@ -25,7 +25,7 @@ list(
              location_file,
              "data/data_raw/unzipped/g_location_disambiguated.tsv",
              format = "file"),
-  tar_target(g_cpc__raw,
+  tar_target(g_cpc_raw,
              "data/data_raw/unzipped/g_cpc_current.tsv",
              format = "file"),
   tar_target(cpc_codes,
@@ -35,8 +35,8 @@ list(
   tar_target(assignee_raw, fread_tsv(assignee_file)),
   tar_target(inventor_raw, fread_tsv(inventor_file)),
   tar_target(location_raw, fread_tsv(location_file)),
+  tar_target(cpc_raw, fread_tsv(g_cpc_raw)),
   tar_target(location_us, get_me_us_location(location_raw)),
-
   tar_target(patent_assignee_location,
              get_me_patent_assignee_loc(patent_raw,
                                         assignee_raw,

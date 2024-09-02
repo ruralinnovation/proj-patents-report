@@ -122,6 +122,8 @@ check_subset(g_assignee_dis[!g_assignee_dis$location_id == "",], location_id, g_
 ## patent id 
 check_subset(g_assignee_dis[!g_assignee_dis$location_id == "",], patent_id, g_patent, patent_id)
 check_subset(g_inventor_dis, patent_id, g_patent, patent_id)
+## cpc
+dm::check_key(cpc, patent_id)
 ```
 
 Slowly adding them:
@@ -151,6 +153,8 @@ pot_schema_all_keys <-
               g_patent.tsv.head) |>
     dm_add_fk(g_inventor_disambiguated.tsv.head,
               patent_id,
+              g_patent.tsv.head) |>
+    dm_add_fk(g_cpc_current.tsv.head, patent_id,
               g_patent.tsv.head)
 ```
 
