@@ -199,12 +199,26 @@ get_patent_counts_wide <- function(patent_raw, cpc, assignee, location, cpc_code
                        by = "location_id")
   tidy_patents <- merge(patent_cpc_get2014, assignee_us, by = "patent_id")
   tidy_cori_patents <- merge(tidy_patents, cpc_codes, by = "cpc_subsection")
+  # if not adding assignee id it is not anymore a PK hence we will have dup
   slim_tidy_cori_patents <- tidy_cori_patents[, list(patent_id, year,
-                                                     cpc_subsection, assignee_id,
+                                                     cpc_subsection,
                                                      geoid_co)]
-  patent_counts_wide <- slim_tidy_cori_patents |>
+
+  slim_tidy_cori_patents_oli <- slim_tidy_cori_patents[!duplicated(slim_tidy_cori_patents),]
+
+  patent_counts_wide <- slim_tidy_cori_patents_oli |>
               as.data.frame() |>
               dplyr::mutate(value = 1) |>
               tidyr::pivot_wider(names_from = cpc_subsection,
                                  values_from = value)
+}
+
+write_to_proj_erc <- function(table_name, data, schema = "proj_erc") {
+  con <- cori.db::connect_to_db(schema)
+	message(schema)
+	on.exit(DBI::dbDisconnect(con))
+  (DBI::dbWriteTable(conn = con,
+                     name = table_name,
+                     value = data,
+                     overwrite = TRUE))
 }

@@ -41,7 +41,9 @@ list(
   tar_target(location_us, get_me_us_location(location_raw)),
   tar_target(patent_counts_wide, get_patent_counts_wide(
     patent_raw, cpc, assignee_raw, location_us, cpc_codes_mem
-  ))
+  )),
+  tar_target(patent_db, write_to_proj_erc("patent_counts_wide",
+                                          patent_counts_wide))
   # tar_target(patent_assignee_location,
   #            get_me_patent_assignee_loc(patent_raw,
   #                                       assignee_raw,

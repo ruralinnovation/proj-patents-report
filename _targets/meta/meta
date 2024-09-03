@@ -2,7 +2,7 @@ name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iterat
 assignee_file|stem|62fc812b42f8aa00|ff2fad4cee4a8e2c|2c530c1562a7fbd1|-130791275|data/data_raw/unzipped/g_assignee_disambiguated.tsv|t19941.7783078089s|19181e6d5ae6bb8c|1037584231|file|local|vector|||0||
 assignee_raw|stem|17eea75cde4ed1c1|40f15c41a175cdbd|79a369d88be37457|-1776892158||t19965.6105602966s|408b0c8a8799d884|280998712|rds|local|vector|||8.411||
 cpc|stem|f473d9312543c832|69b2b2bd98e57276|dcb7b40df023f094|1232020923||t19968.7271009231s|4d909c8092cb94ec|71101564|rds|local|vector|||28.815||
-cpc_codes|stem|46ac3b5adf4523d4|aa8141e132cf2a5c|2c530c1562a7fbd1|-2144215752|data/CPC_patent_codes.csv|t19968.61136586s|8282224de3c290c3|1722|file|local|vector|||0.295||
+cpc_codes|stem|46ac3b5adf4523d4|aa8141e132cf2a5c|2c530c1562a7fbd1|-2144215752|data/CPC_patent_codes.csv|t19969.702277983s|8282224de3c290c3|1722|file|local|vector|||0.295||
 cpc_codes_mem|stem|5fcef0a36b7afca8|ed8acfe423c0a853|485f8713c163dbcd|-1726884630||t19968.7761941308s|8c66a877d5351e9e|881|rds|local|vector|||0.001||
 cpc_raw|stem|a1cfc330de9c55ac|84edb6fd9a718ad7|5927f53d1a43fd9b|1538963313||t19968.6457792864s|d684a3f50d50d6f2|532625286|rds|local|vector|||10.251||
 dl_me_raw_stuff|function|bbeea75760693d15|||||||||||||||
@@ -16,7 +16,7 @@ get_me_patent_assignee_loc|function|9f9a56083cdd46ff|||||||||||||||
 get_me_us_counties|function|ea118b9fb2196670|||||||||||||||
 get_me_us_counties2010|function|7f525f126121ff29|||||||||||||||
 get_me_us_location|function|db531d5101ab8c23|||||||||||||||
-get_patent_counts_wide|function|0f59de5c81d6af22|||||||||||||||
+get_patent_counts_wide|function|734e51ad0930f668|||||||||||||||
 get_rel_table_co_year|function|d287b52346ee8b81|||||||||||||||
 inventor_file|stem|26a7ddc8c95863d0|d9e718d29ceaae27|2c530c1562a7fbd1|1314243806|data/data_raw/unzipped/g_inventor_disambiguated.tsv|t19941.7788223155s|e56307200b8a22cc|2132722674|file|local|vector|||0.243||
 inventor_raw|stem|0e2ae26d32a9cc15|fba29481ab30dd98|93fc7708ae1da104|-1009114140||t19965.6097131911s|18d8ecd1d3c21eca|606647424|rds|local|vector|||26.313||
@@ -25,10 +25,12 @@ location_raw|stem|802d6555cd4e88c5|047650cd5c6838a9|b09db675b4eb6e7f|1531131639|
 location_us|stem|dffc8b36abb2b591|ed35c5e31ba17e65|22c44b4525bc1ae8|-997291703||t19965.6105658674s|bbd488e0b2866652|245658|rds|local|vector|||0.011||
 my_unique|function|1f5a0b56fd2d4ce2|||||||||||||||
 patent_assignee_location|stem|3770aabe50951e6e|eaa8c84419f6f270|60d26c67510f2fb5|367768944||t19965.6124869727s|8855194edf927d50|721339552|rds|local|vector|||56.99||
-patent_counts_wide|stem|3a0ed46c13e8057b|417f1ae42f034904|ecd657167b003330|1702443325||t19968.8406675585s|1964ef0873285cf5|22939243|rds|local|vector|||39.341||
+patent_counts_wide|stem|f20cc0f70ae74d99|417f1ae42f034904|a9ed78f9bb1957e5|1702443325||t19969.828204981s|0330683901cbd0f2|7543694|rds|local|vector|||40.57||
+patent_db|stem|055c5f99272a555e|e63e11c71db485ef|db1c640ab14bc3aa|-242810428||t19969.8360041808s|ba41eabafff2540f|48|rds|local|vector|||8.287||
 patent_file|stem|6382176349c156c2|784985d25b1ff5b8|2c530c1562a7fbd1|361076240|data/data_raw/unzipped/g_patent.tsv|t19941.7791886955s|fe68d5009b09dd52|1055731960|file|local|vector|||0||
 patent_raw|stem|59f0629f2402835a|6a600ad9163aa470|81c1fde921865d1e|-730994296||t19965.6101543309s|bd06401e3a9409f8|202280349|rds|local|vector|||13.25||
 read_sample|function|50fa3240879e5a1a|||||||||||||||
 rel_geoid_year|stem|8b27de405741d886|9be31d3b0119a218|60401893c8bf23c7|1133841084||t19968.58271356s|131af36b92dd4e15|477311|rds|local|vector|||0.638||
 slim_cpc|function|24c66946651495b3|||||||||||||||
 table_with_options|function|8aaa3df01d5209e3|||||||||||||||
+write_to_proj_erc|function|bfd8d7837a48bec9|||||||||||||||
