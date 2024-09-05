@@ -50,8 +50,15 @@ list(
     location_us
   )),
   tar_target(patent_inventor_db, write_to_proj_erc("patent_inventor",
-                                                patent_inventor))
-  # tar_target(patent_assignee_location,
+                                                   patent_inventor)),
+  tar_target(patent_assignee, get_patent_assignee(
+    patent_raw,
+    assignee_raw,
+    location_us
+)),
+tar_target(patent_assignee_db, write_to_proj_erc("patent_assignee",
+                                                 patent_assignee))
+# tar_target(patent_assignee_location,
   #            get_me_patent_assignee_loc(patent_raw,
   #                                       assignee_raw,
   #                                       location_us,

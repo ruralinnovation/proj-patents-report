@@ -82,12 +82,6 @@ get_me_patent_assignee_loc <- function(patent, assignee, location, inventor) {
 #'
 #' @return a data frame
 
-# TODO add year from patent table: patent_inventor
-# number of inventors per year / counties
-# counties/year w/o inventor should be 0 ?
-# unique inventor_id, years and county
-# add gender
-
 get_me_patent_inventor <- function(patent_raw, inventor, location) {
 
   patent_raw$year <- format(as.Date(patent_raw$patent_date,
@@ -136,6 +130,33 @@ get_me_patent_inventor <- function(patent_raw, inventor, location) {
 # inquiry can an assignee have multiple location ?
 # year / county / assignee_id 
 # add assignee_type
+
+get_patent_assignee <- function(patent_raw, assignee_raw, location_us) {
+  slim_assignee <- assignee_raw[, c("patent_id", "assignee_id",
+                                    "assignee_type", "location_id")]
+
+  patent_raw$year <- format(as.Date(patent_raw$patent_date,
+                                    format = "%Y/%m/%d"), "%Y")
+
+  slim_patent <- patent_raw[, c("patent_id", "year")]
+  # unique on patent it
+  # and setdiff(slim_assignee$patent_id, slim_patent$patent_id)
+
+  assignee_year <- merge(slim_assignee, slim_patent, by = "patent_id")
+
+  slim_location <- location_us[, c("location_id", "geoid_co")]
+
+  assignee_us <- merge(assignee_year, slim_location, by = "location_id")
+  # filtering out the duplicated on patent_id / location_id 
+  # weird cases
+   assignee_us_no_dup_co <- assignee_us[
+    !duplicated(assignee_us[, c("assignee_id", "patent_id", "geoid_co")]), ]
+  # 305 removed if pick location_id and 
+  # 308 if used geoid_co I went with geoid_co
+
+  return(assignee_us_no_dup_co[, c("patent_id", "assignee_id",
+                                   "assignee_type", "year", "geoid_co")])
+}
 
 
 #' Return a combo of all years and county in the data set
