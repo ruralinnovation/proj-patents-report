@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "PatentsView Primer for CORI’s MDA",
@@ -16,13 +23,6 @@
       "Home",
       "Glossary"
     ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Capturing notes and pieces of knowledge around: https://patentsview.org/"
   },
   {
     "objectID": "pipeline.html",
