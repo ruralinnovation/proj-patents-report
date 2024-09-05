@@ -1,3 +1,10 @@
+# remoinder since I used data.table a lot of function like
+# merge are dispatched to it and using teh DT version
+
+# TODO create a function that return just year and patent_id from patent
+# replace repeating code with it
+
+
 #' wrangle location for us
 #'
 #' Location was not in the US and even in tehb US we have some NA location
@@ -75,22 +82,61 @@ get_me_patent_assignee_loc <- function(patent, assignee, location, inventor) {
 #'
 #' @return a data frame
 
-get_me_inv_cty <- function(inventor, location) {
+# TODO add year from patent table: patent_inventor
+# number of inventors per year / counties
+# counties/year w/o inventor should be 0 ?
+# unique inventor_id, years and county
+# add gender
+
+get_me_patent_inventor <- function(patent_raw, inventor, location) {
+
+  patent_raw$year <- format(as.Date(patent_raw$patent_date,
+                                    format = "%Y/%m/%d"), "%Y")
+
+  patent_slim <- patent_raw[, c("patent_id", "year")]
 
   slim_inventor <- inventor[, c("patent_id", "inventor_id", "location_id")]
 
-  inv_location <- merge(slim_inventor, location,
-                        by.x = "location_id",
-                        by.y = "location_id",
-                        all.x  = TRUE, all.y = TRUE)
+  inventor_clean <- inventor[!duplicated(slim_inventor),
+                             c("patent_id", "inventor_id",
+                               "location_id", "gender_code")]
+  # you have a gender_code "" that need to be NA
+  inventor_clean$gender_code[inventor_clean$gender_code == ""] <- NA_character_
 
-  dat <- inv_location[!is.na(inv_location$geoid_co), ]
+  inventor_impr <- merge(inventor_clean, patent_slim, by = "patent_id",
+                         all.x = TRUE)
 
-  summarized <- dplyr::summarize(dat,
-                                 cnt_inv = my_unique(patent_id),
-                                 .by = geoid_co)
-  return(summarized)
+  # september 2024 you have 1226 duplicated row patent_id / inventor_id / location
+
+  location_slim <- location[, c("location_id", "geoid_co")]
+
+  inventor_loc <- merge(inventor_impr, location_slim,
+                        by = "location_id")
+  # it looks like some stuff in location us are not related to patent
+  # if by.y = TRUE we have close to 600 location w/o inventor
+
+  # we can be unique on patent_id / inventor_id / location_id
+  # but not with geoid ie
+  # on inventor can move inside a geoid_co
+  # I will filter out those cases
+
+  inventor_loc_no_dup <- inventor_loc[
+    !duplicated(inventor_loc[, c("patent_id", "inventor_id",
+                                 "year", "geoid_co")]),
+                                 c("patent_id", "inventor_id",
+                                   "year", "geoid_co", "gender_code")]
+
+  stopifnot(sum(is.na(inventor_loc$geoid_co)) == 0)
+
+  return(inventor_loc_no_dup)
 }
+
+# TODO new table patent_assignee
+# assignee / geoid_co /
+# inquiry can an assignee have multiple location ?
+# year / county / assignee_id 
+# add assignee_type
+
 
 #' Return a combo of all years and county in the data set
 #'

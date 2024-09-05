@@ -43,7 +43,14 @@ list(
     patent_raw, cpc, assignee_raw, location_us, cpc_codes_mem
   )),
   tar_target(patent_db, write_to_proj_erc("patent_counts_wide",
-                                          patent_counts_wide))
+                                          patent_counts_wide)),
+  tar_target(patent_inventor, get_me_patent_inventor(
+    patent_raw,
+    inventor_raw,
+    location_us
+  )),
+  tar_target(patent_inventor_db, write_to_proj_erc("patent_inventor",
+                                                patent_inventor))
   # tar_target(patent_assignee_location,
   #            get_me_patent_assignee_loc(patent_raw,
   #                                       assignee_raw,
@@ -53,7 +60,6 @@ list(
   #                                                  geoid_co_2010)),
   # tar_target(geoid_co_2010, get_me_us_counties2010())
   # tar_target(cnty_patent, get_me_county_year_patent(patent_assignee_location)),
-  # tar_target(cnty_inv, get_me_inv_cty(inventor_raw, location_us)),
   # tar_quarto(website, quiet = FALSE),
   # patent_raw, cpc, assignee, location, cpc_codes
   # tar_target(write_county, write.csv(cnty_patent,

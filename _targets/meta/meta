@@ -13,6 +13,7 @@ geoid_co_2010|stem|c24c51576aca7c74|5c00783cb6177b07|a7b5b64f3ada39c0|-673933128
 get_me_county_year_patent|function|ea46f1be07c168ec|||||||||||||||
 get_me_inv_cty|function|73c960e86262be43|||||||||||||||
 get_me_patent_assignee_loc|function|9f9a56083cdd46ff|||||||||||||||
+get_me_patent_inventor|function|13ab3d4eeeedda03|||||||||||||||
 get_me_us_counties|function|ea118b9fb2196670|||||||||||||||
 get_me_us_counties2010|function|7f525f126121ff29|||||||||||||||
 get_me_us_location|function|db531d5101ab8c23|||||||||||||||
@@ -28,6 +29,8 @@ patent_assignee_location|stem|3770aabe50951e6e|eaa8c84419f6f270|60d26c67510f2fb5
 patent_counts_wide|stem|f20cc0f70ae74d99|417f1ae42f034904|a9ed78f9bb1957e5|1702443325||t19969.828204981s|0330683901cbd0f2|7543694|rds|local|vector|||40.57||
 patent_db|stem|055c5f99272a555e|e63e11c71db485ef|db1c640ab14bc3aa|-242810428||t19969.8360041808s|ba41eabafff2540f|48|rds|local|vector|||8.287||
 patent_file|stem|6382176349c156c2|784985d25b1ff5b8|2c530c1562a7fbd1|361076240|data/data_raw/unzipped/g_patent.tsv|t19941.7791886955s|fe68d5009b09dd52|1055731960|file|local|vector|||0||
+patent_inventor|stem|fe7b9723b51e195e|860c3dc0ac23f510|b3f3da18807f5d5e|1847139658||t19971.7388284345s|ee0d1ecb85ed7319|89822187|rds|local|vector|||43.342||
+patent_inventor_db|stem|055c5f99272a555e|6442c09f0f4246ec|4c19f49f500bce47|-1321165555||t19971.7423532248s|ba41eabafff2540f|48|rds|local|vector|||18.874||
 patent_raw|stem|59f0629f2402835a|6a600ad9163aa470|81c1fde921865d1e|-730994296||t19965.6101543309s|bd06401e3a9409f8|202280349|rds|local|vector|||13.25||
 read_sample|function|50fa3240879e5a1a|||||||||||||||
 rel_geoid_year|stem|8b27de405741d886|9be31d3b0119a218|60401893c8bf23c7|1133841084||t19968.58271356s|131af36b92dd4e15|477311|rds|local|vector|||0.638||
