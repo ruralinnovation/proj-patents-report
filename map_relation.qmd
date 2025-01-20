@@ -20,7 +20,6 @@ source("R/utils.R")
 
 # EDA: Exploratory Data Analysis
 
-
 Here we have room for improvement if we want to automate it.
 
 I make a quick function:
@@ -28,9 +27,8 @@ I make a quick function:
 ```{r}
 #| label: dl data
 #| eval: false 
-source("R/utils.R")
-
-system("mkdir -p data/data_raw/unzipped")
+#| 
+system("mkdir -p data/data_raw/zipped/")
 
 tsv <- c("g_assignee_disambiguated.tsv",
             "g_inventor_disambiguated.tsv", 

@@ -49,7 +49,7 @@ table_with_options <- function(x) {
                                               text = "Download"))))
 }
 
-#' Quick and dirty way to download stuff 
+#' Quick and dirty way to download stuff
 #'
 #' Put it in an opinionated place (should be data/raw)
 #'
@@ -57,7 +57,7 @@ table_with_options <- function(x) {
 #' @examplesIf interactive()
 #' dl_me_raw_stuff("g_location_disambiguated.tsv")
 
-dl_me_raw_stuff <- function(file, path = "data/data_raw/unzipped") {
+dl_me_raw_stuff <- function(file, path = "data/data_raw/zipped/") {
   url_path <- paste0("https://s3.amazonaws.com/data.patentsview.org/download/",
                      file,
                      ".zip")
@@ -66,14 +66,24 @@ dl_me_raw_stuff <- function(file, path = "data/data_raw/unzipped") {
   download.file(url_path,
                 destfile = my_dest)
   message(sprintf("%s was downloaded", file))
-  unzip(my_dest, exdir = path)
+  unzip(my_dest, exdir = "data/data_raw/")
 }
 
 
 #' count unique not NA value of x
 #''
-#' @param x avector 
+#' @param x a vector
 
 my_unique <- function(x) {
   length(unique(na.omit(x)))
+}
+
+write_to_DB <- function(table_name, data, schema = "proj_erc") {
+  con <- cori.db::connect_to_db(schema)
+	message(schema)
+	on.exit(DBI::dbDisconnect(con), add = TRUE)
+  (DBI::dbWriteTable(conn = con,
+                     name = table_name,
+                     value = data,
+                     overwrite = TRUE))
 }

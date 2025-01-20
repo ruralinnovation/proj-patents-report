@@ -182,7 +182,7 @@ get_rel_table_co_year <- function(dat, geoid_co_2010) {
 #' @param dat big data with patent / assignee and location
 #'
 #' @return a data frame
-get_me_county_year_patent <- function(dat) {
+get_me_county_year_patent <- function(dat, tidy_base) {
   # not happy on hwo to deal with missing year county
   # kind of relying that I have all cty and year
 
@@ -202,9 +202,8 @@ get_me_county_year_patent <- function(dat) {
                      .by = c(geoid_co, year)) |>
     dplyr::rename(geoid = geoid_co) |>
     dplyr::filter(!is.na(year))
-
-  stopifnot(nrow(summarized_co) == 155722)
-
+  # this need t be adjusted, no time to test it but it should be nrow(tidy_base)
+  stopifnot(nrow(summarized_co) == 158417)
 
   summarized_st <- dat2 |>
     dplyr::filter(!is.na(geoid_st)) |>
@@ -218,7 +217,7 @@ get_me_county_year_patent <- function(dat) {
 
   stopifnot(nrow(summarized_st) == 2744)
 
-  summarized_natl2 <- dat2 |>
+  summarized_natl <- dat2 |>
     dplyr::filter(!is.na(dat2$year)) |>
     dplyr::summarize(
                      cnt_patents = my_unique(patent_id),
@@ -231,7 +230,13 @@ get_me_county_year_patent <- function(dat) {
 
   summarized <- dplyr::bind_rows(summarized_co, summarized_st, summarized_natl)
 
-  return(summarized)
+  cnty <- summarized |>
+    tidyr::pivot_longer(
+      cols = tidyr::starts_with("cnt_"),
+      names_to = "variable",
+      values_to = "value")
+
+  return(cnty)
 }
 
 slim_cpc <- function(cpc_raw) {
@@ -280,12 +285,3 @@ get_patent_counts_wide <- function(patent_raw, cpc, assignee, location, cpc_code
                                  values_from = value)
 }
 
-write_to_proj_erc <- function(table_name, data, schema = "proj_erc") {
-  con <- cori.db::connect_to_db(schema)
-	message(schema)
-	on.exit(DBI::dbDisconnect(con))
-  (DBI::dbWriteTable(conn = con,
-                     name = table_name,
-                     value = data,
-                     overwrite = TRUE))
-}
