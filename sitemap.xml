@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ruralinnovation.github.io/proj-patents-report/about.html</loc>
-    <lastmod>2024-09-05T19:43:36.154Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ruralinnovation.github.io/proj-patents-report/index.html</loc>
-    <lastmod>2024-09-05T19:43:36.170Z</lastmod>
-  </url>
-  <url>
     <loc>https://ruralinnovation.github.io/proj-patents-report/glossary.html</loc>
-    <lastmod>2024-09-05T19:43:36.170Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ruralinnovation.github.io/proj-patents-report/pipeline.html</loc>
-    <lastmod>2024-09-05T19:43:36.170Z</lastmod>
+    <lastmod>2025-01-27T14:45:31.432Z</lastmod>
   </url>
   <url>
     <loc>https://ruralinnovation.github.io/proj-patents-report/map_relation.html</loc>
-    <lastmod>2024-09-05T19:43:36.170Z</lastmod>
+    <lastmod>2025-01-27T14:45:31.432Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ruralinnovation.github.io/proj-patents-report/about.html</loc>
+    <lastmod>2025-01-27T14:45:31.418Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ruralinnovation.github.io/proj-patents-report/pipeline.html</loc>
+    <lastmod>2025-01-27T14:45:31.432Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ruralinnovation.github.io/proj-patents-report/index.html</loc>
+    <lastmod>2025-01-27T14:45:31.432Z</lastmod>
   </url>
 </urlset>
